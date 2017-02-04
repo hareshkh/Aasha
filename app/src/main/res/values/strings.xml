@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Aasha</string>
+
+    <!--Login Activity strings-->
+    <string name="hint_uid">Aadhaar Number/आधार नंबर</string>
+    <string name="hint_password">Password/पासवर्ड</string>
+    <string name="submit_button_text">Submit/सबमिट</string>
+
 </resources>
