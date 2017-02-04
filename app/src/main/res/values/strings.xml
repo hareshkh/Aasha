@@ -6,4 +6,8 @@
     <string name="hint_password">Password/पासवर्ड</string>
     <string name="submit_button_text">Submit/सबमिट</string>
 
+    <!--Tab names-->
+    <string name="tab_one">Appointments</string>
+    <string name="tab_two">Hospitals</string>
+    <string name="tab_three">History</string>
 </resources>
