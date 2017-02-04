@@ -24,7 +24,7 @@ public class AppointmentModel {
     public int getId() {
         return id;
     }
-    
+
     public int getPatientId() {
         return patientId;
     }

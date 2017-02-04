@@ -6,16 +6,16 @@ public class HospitalModel {
     private String name;
     private String address;
     private String phoneNumber;
-    private double gpsX;
-    private double gpsY;
+    private double latitude;
+    private double longitude;
 
-    public HospitalModel(int id, String name, String address, String phoneNumber, double gpsX, double gpsY) {
+    public HospitalModel(int id, String name, String address, String phoneNumber, double latitude, double longitude) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.phoneNumber = phoneNumber;
-        this.gpsX = gpsX;
-        this.gpsY = gpsY;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public int getId() {
@@ -46,19 +46,19 @@ public class HospitalModel {
         this.phoneNumber = phoneNumber;
     }
 
-    public double getGpsX() {
-        return gpsX;
+    public double getLatitude() {
+        return latitude;
     }
 
-    public void setGpsX(double gpsX) {
-        this.gpsX = gpsX;
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
     }
 
-    public double getGpsY() {
-        return gpsY;
+    public double getLongitude() {
+        return longitude;
     }
 
-    public void setGpsY(double gpsY) {
-        this.gpsY = gpsY;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }
