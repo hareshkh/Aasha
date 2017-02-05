@@ -16,12 +16,12 @@ import java.util.List;
  * Created by haresh on 4/2/17.
  */
 
-public class AppointementsRecyclerAdapter extends RecyclerView.Adapter<AppointementsRecyclerAdapter.MyViewHolder> {
+public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<AppointmentsRecyclerAdapter.MyViewHolder> {
 
     Context context;
     List<AppointmentModel> appointmentModelList;
 
-    public AppointementsRecyclerAdapter(Context context, List<AppointmentModel> appointmentModelList) {
+    public AppointmentsRecyclerAdapter(Context context, List<AppointmentModel> appointmentModelList) {
         this.context = context;
         this.appointmentModelList = appointmentModelList;
     }
