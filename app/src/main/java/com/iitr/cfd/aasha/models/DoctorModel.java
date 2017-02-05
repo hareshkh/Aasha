@@ -3,21 +3,21 @@ package com.iitr.cfd.aasha.models;
 public class DoctorModel {
 
     private int id;
-    private int uid;
+    private long uid;
     private String name;
-    private String encryptedPassword;
-    private String photo;
+    private String password;
+    private String image;
     private String details;
     private String phone;
     private String address;
 
-    public DoctorModel(int id, int uid, String name, String encryptedPassword, String photo,
+    public DoctorModel(int id, int uid, String name, String password, String image,
                        String details, String phone, String address) {
         this.id = id;
         this.uid = uid;
         this.name = name;
-        this.encryptedPassword = encryptedPassword;
-        this.photo = photo;
+        this.password = password;
+        this.image = image;
         this.details = details;
         this.phone = phone;
         this.address = address;
@@ -47,20 +47,20 @@ public class DoctorModel {
         this.details = details;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImage() {
+        return image;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getEncryptedPassword() {
-        return encryptedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getName() {
@@ -71,11 +71,11 @@ public class DoctorModel {
         this.name = name;
     }
 
-    public int getUid() {
+    public long getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(long uid) {
         this.uid = uid;
     }
 

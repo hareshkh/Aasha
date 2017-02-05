@@ -9,20 +9,27 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface ApiCalls {
 
-    String BASE_URL = "http://0c884a4e.ngrok.io/";
+    String BASE_URL = "http://0c884a4e.ngrok.io/db/";
 
-    @GET("db/hospitals")
+    @GET("hospitals")
     Call<List<HospitalModel>> getHospitals();
 
-    @GET("db/appointments")
+    @GET("appointments")
     Call<List<AppointmentModel>> getAppointments();
 
-    @GET("db/doctors")
+    @GET("doctors")
     Call<List<DoctorModel>> getDoctors();
+
+    @FormUrlEncoded
+    @POST("login")
+    Call<Integer> getPatientId(@Field("uid") long uid, @Field("password") String password);
 
     class Factory {
         public static ApiCalls service;

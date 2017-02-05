@@ -5,7 +5,7 @@ public class PatientModel {
     private int id;
     private int uid;
     private String name;
-    private String encryptedPassword;
+    private String password;
     private String photo;
     private String address;
     private String phone;
@@ -13,13 +13,13 @@ public class PatientModel {
     private String dueDate;
     private String conceiveDate;
 
-    public PatientModel(int id, int uid, String name, String encryptedPassword, String photo,
+    public PatientModel(int id, int uid, String name, String password, String photo,
                         String address, String phone, boolean isPregnant, String dueDate,
                         String conceiveDate) {
         this.id = id;
         this.uid = uid;
         this.name = name;
-        this.encryptedPassword = encryptedPassword;
+        this.password = password;
         this.photo = photo;
         this.address = address;
         this.phone = phone;
@@ -48,12 +48,12 @@ public class PatientModel {
         this.name = name;
     }
 
-    public String getEncryptedPassword() {
-        return encryptedPassword;
+    public String getPassword() {
+        return password;
     }
 
-    public void setEncryptedPassword(String encryptedPassword) {
-        this.encryptedPassword = encryptedPassword;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getPhoto() {

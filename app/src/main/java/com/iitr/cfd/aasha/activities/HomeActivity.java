@@ -16,6 +16,7 @@ import com.iitr.cfd.aasha.fragments.HistoryFragment;
 import com.iitr.cfd.aasha.fragments.HospitalFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.models.AppointmentModel;
+import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class HomeActivity extends AppCompatActivity {
 
     public static List<AppointmentModel> appointments;
     public static List<HospitalModel> hospitals;
+    public static List<DoctorModel> doctors;
 
     ProgressDialog progressDialog;
 
@@ -53,6 +55,7 @@ public class HomeActivity extends AppCompatActivity {
     private void getData() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Fetching Data");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         ApiCalls.Factory.getInstance().getAppointments().enqueue(new Callback<List<AppointmentModel>>() {
@@ -90,6 +93,18 @@ public class HomeActivity extends AppCompatActivity {
                 Toast.makeText(HomeActivity.this, "Failed to fetch hospitals", Toast.LENGTH_SHORT).show();
                 setupViewPager(viewPager);
                 progressDialog.dismiss();
+            }
+        });
+
+        ApiCalls.Factory.getInstance().getDoctors().enqueue(new Callback<List<DoctorModel>>() {
+            @Override
+            public void onResponse(Call<List<DoctorModel>> call, Response<List<DoctorModel>> response) {
+                doctors = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<DoctorModel>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Failed to fetch doctors", Toast.LENGTH_SHORT).show();
             }
         });
 
