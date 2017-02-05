@@ -5,7 +5,7 @@ public class HospitalModel {
     private int id;
     private String name;
     private String address;
-    private String contact;
+    private String phone;
     private double latitude;
     private double longitude;
 
@@ -13,7 +13,7 @@ public class HospitalModel {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.contact = phoneNumber;
+        this.phone = phoneNumber;
         this.latitude = latitude;
         this.longitude = longitude;
     }
@@ -38,12 +38,12 @@ public class HospitalModel {
         this.address = address;
     }
 
-    public String getContact() {
-        return contact;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public double getLatitude() {

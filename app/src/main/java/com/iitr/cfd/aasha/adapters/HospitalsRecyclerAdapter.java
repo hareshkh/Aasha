@@ -33,7 +33,7 @@ public class HospitalsRecyclerAdapter extends RecyclerView.Adapter<HospitalsRecy
     public void onBindViewHolder(HospitalsRecyclerAdapter.MyViewHolder holder, int position) {
         HospitalModel hospital = hospitalModelList.get(position);
         holder.hospitalName.setText(hospital.getName());
-        holder.hospitalContact.setText(hospital.getContact());
+        holder.hospitalContact.setText(hospital.getPhone());
     }
 
     @Override

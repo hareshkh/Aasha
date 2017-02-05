@@ -13,15 +13,15 @@ import retrofit2.http.GET;
 
 public interface ApiCalls {
 
-    String BASE_URL = "https://xxx.xxx.com";
+    String BASE_URL = "http://0c884a4e.ngrok.io/";
 
-    @GET("hospitals")
+    @GET("db/hospitals")
     Call<List<HospitalModel>> getHospitals();
 
-    @GET("appointments")
+    @GET("db/appointments")
     Call<List<AppointmentModel>> getAppointments();
 
-    @GET("doctors")
+    @GET("db/doctors")
     Call<List<DoctorModel>> getDoctors();
 
     class Factory {

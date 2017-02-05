@@ -47,7 +47,7 @@ public class HistoryFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        historyRecycler = (RecyclerView) view.findViewById(R.id.appointments_recycler);
+        historyRecycler = (RecyclerView) view.findViewById(R.id.history_recycler);
 
         if (appointments != null) {
             AppointmentsRecyclerAdapter appointmentsAdapter = new AppointmentsRecyclerAdapter(getContext(), appointments);

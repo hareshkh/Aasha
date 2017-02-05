@@ -6,17 +6,17 @@ public class AppointmentModel {
     private int patientId;
     private int hospitalId;
     private int doctorId;
-    private String timestamp;
+    private String time;
     private String description;
     private String status;
 
-    public AppointmentModel(int id, int patientId, int hospitalId, int doctorId, String timestamp,
+    public AppointmentModel(int id, int patientId, int hospitalId, int doctorId, String time,
                             String description, String status) {
         this.id = id;
         this.patientId = patientId;
         this.hospitalId = hospitalId;
         this.doctorId = doctorId;
-        this.timestamp = timestamp; // to be parsed into java Date later
+        this.time = time; // to be parsed into java Date later
         this.description = description;
         this.status = status;
     }
@@ -49,12 +49,12 @@ public class AppointmentModel {
         this.doctorId = doctorId;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getTime() {
+        return time;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDescription() {

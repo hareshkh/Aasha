@@ -36,7 +36,7 @@ public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<Appointmen
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AppointmentModel appointment = appointmentModelList.get(position);
-        holder.appointmentTimeText.setText(appointment.getTimestamp());
+        holder.appointmentTimeText.setText(appointment.getTime());
         holder.appointmentStatusText.setText(appointment.getStatus());
         holder.appointmentDescriptionText.setText(appointment.getDescription());
     }
