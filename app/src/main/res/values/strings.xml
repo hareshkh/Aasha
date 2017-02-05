@@ -1,13 +1,29 @@
 <resources>
     <string name="app_name">Aasha</string>
 
-    <!--Login Activity strings-->
+    <!--Login strings-->
     <string name="hint_uid">Aadhaar Number/आधार नंबर</string>
     <string name="hint_password">Password/पासवर्ड</string>
     <string name="submit_button_text">Submit/सबमिट</string>
+    <string name="sign_up_text_view">Register/रजिस्टर करें</string>
+
+    <!--Sign Up Strings-->
+    <string name="hint_name_signup">Name/नाम</string>
+    <string name="hint_uid_signup">Aadhaar Number/आधार नंबर</string>
+    <string name="hint_password_signup">Password/पासवर्ड</string>
+    <string name="hint_address_signup">Address/पता</string>
+    <string name="hint_phone_signup">Phone No./फ़ोन नंबर</string>
+    <string name="hint_duedate_signup">Due Date/नियत तारीख</string>
+    <string name="hint_conceivedate_signup">Conceive Date/गर्भ धारण तारीख</string>
+    <string name="register_button_text">Register/रजिस्टर करें</string>
+    <string name="is_pregnant">Pregnant/गर्भवती?</string>
 
     <!--Tab names-->
     <string name="tab_one">Appointments</string>
     <string name="tab_two">Hospitals</string>
     <string name="tab_three">History</string>
+
+    <!--General-->
+    <string name="yes">Yes/हाँ</string>
+    <string name="no">No/नहीं</string>
 </resources>

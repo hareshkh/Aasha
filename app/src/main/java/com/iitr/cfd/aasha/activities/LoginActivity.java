@@ -2,21 +2,19 @@ package com.iitr.cfd.aasha.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,10 +23,11 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
 
     Button submitButton;
-    static int PATIENT_ID;
-
     EditText uidText;
     EditText password;
+    TextView signUpMessage;
+
+    static int PATIENT_ID;
 
     ProgressDialog progressDialog;
 
@@ -40,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         submitButton = (Button) findViewById(R.id.submit_button);
         uidText = (EditText) findViewById(R.id.input_uid);
         password = (EditText) findViewById(R.id.input_password);
+        signUpMessage = (TextView) findViewById(R.id.sign_up_message);
 
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +78,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+        signUpMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadSignUpForm();
+            }
+        });
     }
 
     public boolean validate() {
@@ -93,4 +100,7 @@ public class LoginActivity extends AppCompatActivity {
         return result;
     }
 
+    public void loadSignUpForm() {
+
+    }
 }
