@@ -21,9 +21,12 @@ public class PatientModel {
     @SerializedName("conceivedate")
     private String conceiveDate;
 
+    @SerializedName("hospital_id")
+    private int hospitalId;
+
     public PatientModel(int id, int uid, String name, String password, String photo,
                         String address, String phone, boolean isPregnant, String dueDate,
-                        String conceiveDate) {
+                        String conceiveDate, int hospitalId) {
         this.id = id;
         this.uid = uid;
         this.name = name;
@@ -34,6 +37,7 @@ public class PatientModel {
         this.isPregnant = isPregnant;
         this.dueDate = dueDate;
         this.conceiveDate = conceiveDate;
+        this.hospitalId = hospitalId;
     }
 
     public int getId() {
@@ -110,5 +114,13 @@ public class PatientModel {
 
     public void setConceiveDate(String conceiveDate) {
         this.conceiveDate = conceiveDate;
+    }
+
+    public int getHospitalId() {
+        return hospitalId;
+    }
+
+    public void setHospitalId(int hospitalId) {
+        this.hospitalId = hospitalId;
     }
 }
