@@ -117,7 +117,7 @@ public class SignUpFragment extends Fragment {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                String format = "yyyy-MM-dd"; //In which you need put here
+                String format = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
                 dueDate.setText(getString(R.string.hint_duedate_signup) + "\n" + sdf.format(calendar.getTime()));
             }
@@ -129,7 +129,7 @@ public class SignUpFragment extends Fragment {
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                String format = "yyyy-MM-dd"; //In which you need put here
+                String format = "yyyy-MM-dd";
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
                 conceiveDate.setText(getString(R.string.hint_conceivedate_signup) + "\n" + sdf.format(calendar.getTime()));
             }

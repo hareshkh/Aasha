@@ -1,13 +1,7 @@
 package com.iitr.cfd.aasha.utilities;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
-
-/**
- * Created by Harjot on 05-Feb-17.
- */
 
 public class StringUtils {
 

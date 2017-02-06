@@ -18,6 +18,14 @@
     <string name="register_button_text">Register/रजिस्टर करें</string>
     <string name="is_pregnant">Pregnant/गर्भवती?</string>
 
+    <!--Appointment Booking-->
+    <string name="appointment_book_button_text">Book Appointment/अपॉइंटमेंट बुक करें</string>
+    <string name="hint_doctor_name_appointment">Doctor\'s Name/डॉक्टर का नाम</string>
+    <string name="hint_hospital_name_appointment">Hospital\'s Name/अस्पताल का नाम</string>
+    <string name="hint_time_appointment">Time/समय</string>
+    <string name="hint_description_appointment">Description/विस्तृत विवरण</string>
+    <string name="hint_date_appointment">Date/तारीख</string>
+
     <!--Tab names-->
     <string name="tab_one">Appointments</string>
     <string name="tab_two">Hospitals</string>

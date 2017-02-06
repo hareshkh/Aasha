@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/button_book_appointment"
+        android:background="@color/background"
+        android:clickable="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/background">
+
+            <TextView
+                android:id="@+id/doctor_name_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_doctor_name_appointment"
+                android:padding="4dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/hospital_name_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/doctor_name_appointment"
+                android:hint="@string/hint_hospital_name_appointment"
+                android:padding="4dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/time_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hospital_name_appointment"
+                android:hint="@string/hint_time_appointment"
+                android:padding="4dp"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/date_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_appointment"
+                android:hint="@string/hint_date_appointment"
+                android:padding="4dp"
+                android:textSize="18sp" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_description_appointment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_appointment">
+
+                <EditText
+                    android:id="@+id/input_description_appointment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_description_appointment"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/button_book_appointment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/appointment_book_button_text" />
+
+</RelativeLayout>
