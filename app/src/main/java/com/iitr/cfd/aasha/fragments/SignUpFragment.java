@@ -203,9 +203,9 @@ public class SignUpFragment extends Fragment {
         contactString = contact.getText().toString();
         isPregnantFlag = yesButton.isChecked();
         if (isPregnantFlag) {
-            dueDateString = dueDate.getText().toString();
+            dueDateString = dueDate.getText().toString().substring(dueDate.getText().toString().length()-10);
             dueDateString = dueDateString.concat(" 00:00:00");
-            conceiveDateString = conceiveDate.getText().toString();
+            conceiveDateString = conceiveDate.getText().toString().substring(conceiveDate.getText().toString().length()-10);
             conceiveDateString = conceiveDateString.concat(" 00:00:00");
         } else {
             dueDateString = "";
@@ -236,11 +236,11 @@ public class SignUpFragment extends Fragment {
             formStatus = false;
         }
         if (isPregnantFlag) {
-            if (dueDateString.equals("")) {
+            if (dueDate.getText().toString().equals(getString(R.string.hint_duedate_signup))) {
                 dueDate.setError("Select a Date");
                 formStatus = false;
             }
-            if (conceiveDateString.equals("")) {
+            if (conceiveDate.getText().toString().equals(getString(R.string.hint_conceivedate_signup))) {
                 conceiveDate.setError("Select a Date");
                 formStatus = false;
             }

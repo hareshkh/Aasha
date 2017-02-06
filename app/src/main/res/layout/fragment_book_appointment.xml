@@ -54,7 +54,8 @@
                 android:id="@+id/input_layout_description_appointment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/time_appointment">
+                android:layout_below="@id/time_appointment"
+                android:paddingTop="10dp">
 
                 <EditText
                     android:id="@+id/input_description_appointment"

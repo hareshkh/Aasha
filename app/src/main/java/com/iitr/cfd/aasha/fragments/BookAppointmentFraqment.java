@@ -1,6 +1,7 @@
 package com.iitr.cfd.aasha.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -9,16 +10,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.models.AppointmentModel;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BookAppointmentFraqment extends Fragment {
 
@@ -28,7 +37,14 @@ public class BookAppointmentFraqment extends Fragment {
     TextView appointmentTime;
     EditText appointmentDescription;
 
+    Button bookAppointmentButton;
+
+    String appointmentDateString, appointmentTimeString, appointmentDescriptionString;
+    int patientId, hospitalId, doctorId; // To be set from data received in Bundle
+
     Calendar calendar;
+
+    ProgressDialog progressDialog;
 
     public BookAppointmentFraqment() {
         // Required empty public constructor
@@ -58,6 +74,7 @@ public class BookAppointmentFraqment extends Fragment {
         appointmentDate = (TextView) view.findViewById(R.id.date_appointment);
         appointmentTime = (TextView) view.findViewById(R.id.time_appointment);
         appointmentDescription = (EditText) view.findViewById(R.id.input_description_appointment);
+        bookAppointmentButton = (Button) view.findViewById(R.id.button_book_appointment);
 
         calendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener appointmentDateDialog = new DatePickerDialog.OnDateSetListener() {
@@ -100,5 +117,59 @@ public class BookAppointmentFraqment extends Fragment {
                         calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
             }
         });
+
+        bookAppointmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                extractData();
+                if (validate()) {
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Booking your appointment");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    ApiCalls.Factory.getInstance().appointmentBookRequest(patientId, hospitalId,
+                            doctorId, appointmentDateString.concat(" "+appointmentTimeString),
+                            appointmentDescriptionString, "").enqueue(new Callback<AppointmentModel>() {
+                        @Override
+                        public void onResponse(Call<AppointmentModel> call, Response<AppointmentModel> response) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+                        }
+
+                        @Override
+                        public void onFailure(Call<AppointmentModel> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Fill the form completely", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void extractData() {
+        appointmentDateString = appointmentDate.getText().toString().substring(appointmentDate.getText().toString().length() - 10);
+        appointmentTimeString = appointmentTime.getText().toString().substring(appointmentTime.getText().toString().length() - 8);
+        appointmentDescriptionString = appointmentDescription.getText().toString();
+    }
+
+    public boolean validate() {
+        boolean formStatus = true;
+        if (appointmentDescriptionString.equals("")) {
+            formStatus = false;
+            appointmentDescription.setError("Enter a longer description");
+        }
+        if (appointmentDate.getText().toString().equals(getString(R.string.hint_date_appointment))) {
+            formStatus = false;
+            appointmentDate.setError("Select a date");
+        }
+        if (appointmentTime.getText().toString().equals(getString(R.string.hint_time_appointment))) {
+            formStatus = false;
+            appointmentTime.setError("Select a time");
+        }
+        return formStatus;
     }
 }

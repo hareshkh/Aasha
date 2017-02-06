@@ -44,6 +44,15 @@ public interface ApiCalls {
                                      @Field("duedate") String dueDate,
                                      @Field("conceivedate") String conceiveDate);
 
+    @FormUrlEncoded
+    @POST("appointments")
+    Call<AppointmentModel> appointmentBookRequest(@Field("patient_id") int patientId,
+                                                  @Field("hospital_id") int hospitalId,
+                                                  @Field("doctor_id") int doctorId,
+                                                  @Field("time") String time,
+                                                  @Field("description") String description,
+                                                  @Field("status") String status);
+
     class Factory {
         public static ApiCalls service;
 
