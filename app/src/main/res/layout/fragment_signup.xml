@@ -98,13 +98,16 @@
         android:orientation="horizontal">
 
         <RadioButton
+            android:id="@+id/yes_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/yes" />
 
         <RadioButton
+            android:id="@+id/no_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="@string/no" />
     </RadioGroup>
 
@@ -127,8 +130,8 @@
         android:id="@+id/input_layout_duedate_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/input_layout_conceivedate_signup"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/input_layout_conceivedate_signup">
 
         <EditText
             android:id="@+id/input_duedate_signup"

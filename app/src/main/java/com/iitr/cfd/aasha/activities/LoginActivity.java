@@ -101,6 +101,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loadSignUpForm() {
-
+        //Load the fragment.
     }
 }
