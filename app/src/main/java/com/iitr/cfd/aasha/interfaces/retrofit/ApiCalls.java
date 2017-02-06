@@ -3,6 +3,7 @@ package com.iitr.cfd.aasha.interfaces.retrofit;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.models.PatientModel;
 
 import java.util.List;
 
@@ -29,7 +30,19 @@ public interface ApiCalls {
 
     @FormUrlEncoded
     @POST("login")
-    Call<Integer> getPatientId(@Field("uid") long uid, @Field("password") String password);
+    Call<Integer> loginRequest(@Field("uid") long uid, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("patients")
+    Call<PatientModel> signupRequest(@Field("name") String name,
+                                     @Field("uid") long uid,
+                                     @Field("password") String password,
+                                     @Field("image") String image,
+                                     @Field("address") String address,
+                                     @Field("phone") String phone,
+                                     @Field("pregnant") boolean isPregnant,
+                                     @Field("duedate") String dueDate,
+                                     @Field("conceivedate") String conceiveDate);
 
     class Factory {
         public static ApiCalls service;

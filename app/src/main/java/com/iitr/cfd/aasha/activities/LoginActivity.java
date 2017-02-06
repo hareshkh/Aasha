@@ -27,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText password;
     TextView signUpMessage;
 
-    static int PATIENT_ID;
+    public static int PATIENT_ID;
 
     ProgressDialog progressDialog;
 
@@ -50,7 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     try {
-                        ApiCalls.Factory.getInstance().getPatientId(Long.parseLong(uidText.getText().toString()), StringUtils.encryptSHA256(password.getText().toString())).enqueue(new Callback<Integer>() {
+                        ApiCalls.Factory.getInstance().loginRequest(Long.parseLong(uidText.getText().toString()), StringUtils.encryptSHA256(password.getText().toString())).enqueue(new Callback<Integer>() {
                             @Override
                             public void onResponse(Call<Integer> call, Response<Integer> response) {
                                 if (response.body() != null) {

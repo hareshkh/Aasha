@@ -1,7 +1,9 @@
 package com.iitr.cfd.aasha.fragments;
 
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,12 +18,20 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.activities.HomeActivity;
+import com.iitr.cfd.aasha.activities.LoginActivity;
+import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.models.PatientModel;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SignUpFragment extends Fragment {
 
@@ -42,6 +52,7 @@ public class SignUpFragment extends Fragment {
     boolean isPregnantFlag;
 
     Calendar calendar;
+    ProgressDialog progressDialog;
 
     public SignUpFragment() {
         // Required empty public constructor
@@ -143,7 +154,30 @@ public class SignUpFragment extends Fragment {
             public void onClick(View v) {
                 extractData();
                 if (validate()) {
-                    //Send network request.
+                    progressDialog = new ProgressDialog(getContext());
+                    progressDialog.setMessage("Validating");
+                    progressDialog.setCancelable(false);
+                    progressDialog.show();
+                    ApiCalls.Factory.getInstance().signupRequest(nameString, uidNumber, passwordString,
+                            "abc", addressString, contactString, isPregnantFlag, dueDateString, conceiveDateString)
+                            .enqueue(new Callback<PatientModel>() {
+                                @Override
+                                public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
+                                    LoginActivity.PATIENT_ID = response.body().getId();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
+                                    // Open up new activity
+                                    Intent intent = new Intent(getContext(), HomeActivity.class);
+                                    startActivity(intent);
+                                    getActivity().finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<PatientModel> call, Throwable t) {
+                                    Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
                 } else {
                     Toast.makeText(getContext(), "Fill the form completely", Toast.LENGTH_SHORT).show();
                 }

@@ -1,5 +1,7 @@
 package com.iitr.cfd.aasha.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class PatientModel {
 
     private int id;
@@ -9,8 +11,14 @@ public class PatientModel {
     private String photo;
     private String address;
     private String phone;
+
+    @SerializedName("pregnant")
     private boolean isPregnant;
+
+    @SerializedName("duedate")
     private String dueDate;
+
+    @SerializedName("conceivedate")
     private String conceiveDate;
 
     public PatientModel(int id, int uid, String name, String password, String photo,
