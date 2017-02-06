@@ -44,7 +44,7 @@ captures/
 .externalNativeBuild
 
 # Config File
-app/src/main/java/com/sdsmdg/hareshkh/githubapp/Config.java
+app/src/main/java/com/iitr/cfd/aasha/Config.java
 
 ### Android Patch ###
 gen-external-apklibs
