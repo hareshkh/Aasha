@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.fragments.SignUpFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
@@ -87,6 +88,17 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+
+        int count = getFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
+
     public boolean validate() {
         boolean result = true;
         if (uidText.getText().toString().equals("") || uidText.getText().toString().length() < 12) {
@@ -101,6 +113,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void loadSignUpForm() {
-        //Load the fragment.
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.sign_up_frag_container, new SignUpFragment())
+                .addToBackStack("sign_up")
+                .commit();
     }
 }

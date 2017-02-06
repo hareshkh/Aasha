@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
@@ -43,8 +45,8 @@ public class SignUpFragment extends Fragment {
     RadioGroup isPregnant;
     RadioButton yesButton;
     RadioButton noButton;
-    EditText dueDate;
-    EditText conceiveDate;
+    TextView dueDate;
+    TextView conceiveDate;
     Button registerButton;
 
     String nameString, passwordString, addressString, contactString, conceiveDateString, dueDateString;
@@ -84,8 +86,8 @@ public class SignUpFragment extends Fragment {
         isPregnant = (RadioGroup) view.findViewById(R.id.radio_group_signup);
         yesButton = (RadioButton) view.findViewById(R.id.yes_radio_button);
         noButton = (RadioButton) view.findViewById(R.id.no_radio_button);
-        dueDate = (EditText) view.findViewById(R.id.input_duedate_signup);
-        conceiveDate = (EditText) view.findViewById(R.id.input_conceivedate_signup);
+        dueDate = (TextView) view.findViewById(R.id.input_duedate_signup);
+        conceiveDate = (TextView) view.findViewById(R.id.input_conceivedate_signup);
         registerButton = (Button) view.findViewById(R.id.register_button_signup);
 
         dueDate.setVisibility(View.GONE);
@@ -117,7 +119,7 @@ public class SignUpFragment extends Fragment {
 
                 String format = "yyyy-MM-dd"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-                dueDate.setText(sdf.format(calendar.getTime()));
+                dueDate.setText(getString(R.string.hint_duedate_signup) + "\n" + sdf.format(calendar.getTime()));
             }
         };
         final DatePickerDialog.OnDateSetListener conceiveDateDialog = new DatePickerDialog.OnDateSetListener() {
@@ -129,7 +131,7 @@ public class SignUpFragment extends Fragment {
 
                 String format = "yyyy-MM-dd"; //In which you need put here
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-                conceiveDate.setText(sdf.format(calendar.getTime()));
+                conceiveDate.setText(getString(R.string.hint_conceivedate_signup) + "\n" + sdf.format(calendar.getTime()));
             }
         };
 
@@ -174,6 +176,7 @@ public class SignUpFragment extends Fragment {
 
                                 @Override
                                 public void onFailure(Call<PatientModel> call, Throwable t) {
+                                    Log.d("RETRO", t.getMessage());
                                     Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 }
@@ -187,7 +190,7 @@ public class SignUpFragment extends Fragment {
 
     private void extractData() {
         nameString = name.getText().toString();
-        uidNumber = Long.parseLong(uid.getText().toString());
+        uidNumber = (uid.getText().toString().equals("")) ? 0 : Long.parseLong(uid.getText().toString());
         passwordString = "";
         if (!password.getText().toString().equals("")) {
             try {
