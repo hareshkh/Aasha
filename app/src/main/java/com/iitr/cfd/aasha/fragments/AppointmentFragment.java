@@ -43,14 +43,14 @@ public class AppointmentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d("APPOINT", HomeActivity.appointments.size()+"");
+        Log.d("APPOINT", HomeActivity.appointments.size() + "");
         appointments = new ArrayList<>();
         for (AppointmentModel appointmentModel : HomeActivity.appointments) {
             if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
                 appointments.add(appointmentModel);
             }
         }
-        Log.d("APPOINT", appointments.size()+"");
+        Log.d("APPOINT", appointments.size() + "");
     }
 
     @Override
@@ -93,7 +93,7 @@ public class AppointmentFragment extends Fragment {
                         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
                         String format = "yyyy-MM-dd";
-                        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
+                        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
                         time[0] = sdf.format(calendar.getTime());
 
                         HospitalDoctorSelectFragment hospitalDoctorSelectFragment = new HospitalDoctorSelectFragment();
@@ -120,13 +120,14 @@ public class AppointmentFragment extends Fragment {
     }
 
     public void updateList() {
-        Log.d("APPOINT", HomeActivity.appointments.size()+"");
+        Log.d("APPOINT", HomeActivity.appointments.size() + "");
+        appointments.clear();
         for (AppointmentModel appointmentModel : HomeActivity.appointments) {
             if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
                 appointments.add(appointmentModel);
             }
         }
-        Log.d("APPOINT", appointments.size()+"");
+        Log.d("APPOINT", appointments.size() + "");
         appointmentsAdapter.notifyDataSetChanged();
     }
 

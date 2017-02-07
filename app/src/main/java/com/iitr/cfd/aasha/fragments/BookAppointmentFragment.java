@@ -46,6 +46,7 @@ public class BookAppointmentFragment extends Fragment {
     Button bookAppointmentButton;
 
     String date;
+    String timeFinal;
 
     DoctorModel doctor;
     HospitalModel hospital;
@@ -122,7 +123,8 @@ public class BookAppointmentFragment extends Fragment {
 
                 String format = "hh:mm:ss";
                 SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-                appointmentTime.setText(getString(R.string.hint_time_appointment) + "\n" + sdf.format(calendar.getTime()));
+                timeFinal = sdf.format(calendar.getTime());
+                appointmentTime.setText(getString(R.string.hint_time_appointment) + "\n" + timeFinal);
             }
         };
 
@@ -150,7 +152,6 @@ public class BookAppointmentFragment extends Fragment {
                         public void onResponse(Call<AppointmentModel> call, Response<AppointmentModel> response) {
                             progressDialog.dismiss();
                             HomeActivity.appointments.add(response.body());
-                            Log.d("IDID", response.body().getPatientId() + "");
                             ((HomeActivity) getActivity()).updateAppointments();
                             Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
                             getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -171,8 +172,8 @@ public class BookAppointmentFragment extends Fragment {
     }
 
     public void extractData() {
-        appointmentDateString = (appointmentDate.getText().toString().length() > 10) ? "" : appointmentDate.getText().toString().substring(appointmentDate.getText().toString().length() - 10);
-        appointmentTimeString = (appointmentTime.getText().toString().length() > 8) ? "" : appointmentTime.getText().toString().substring(appointmentTime.getText().toString().length() - 8);
+        appointmentDateString = date;
+        appointmentTimeString = timeFinal;
         appointmentDescriptionString = appointmentDescription.getText().toString();
     }
 
