@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
@@ -96,15 +95,15 @@ public class AppointmentFragment extends Fragment {
                         SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.US);
                         time[0] = sdf.format(calendar.getTime());
 
-                        HospitalDoctorSelectFragment hospitalDoctorSelectFragment = new HospitalDoctorSelectFragment();
+                        AppointmentDoctorSelectFragment appointmentDoctorSelectFragment = new AppointmentDoctorSelectFragment();
                         Bundle bundle = new Bundle();
                         bundle.putString("time", time[0]);
-                        hospitalDoctorSelectFragment.setArguments(bundle);
+                        appointmentDoctorSelectFragment.setArguments(bundle);
 
                         getActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .add(R.id.frag_container, hospitalDoctorSelectFragment)
+                                .add(R.id.frag_container, appointmentDoctorSelectFragment)
                                 .addToBackStack("book_appointment")
                                 .commit();
 

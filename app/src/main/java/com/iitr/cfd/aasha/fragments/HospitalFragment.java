@@ -61,7 +61,16 @@ public class HospitalFragment extends Fragment {
             hospitalsRecycler.addOnItemTouchListener(new ClickItemTouchListener(hospitalsRecycler) {
                 @Override
                 public boolean onClick(RecyclerView parent, View view, int position, long id) {
-
+                    DoctorsFragment doctorsFragment = new DoctorsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("haspital_id", hospitals.get(position).getId());
+                    doctorsFragment.setArguments(bundle);
+                    getActivity()
+                            .getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.frag_container, doctorsFragment)
+                            .addToBackStack("doctors")
+                            .commit();
 
                     return true;
                 }

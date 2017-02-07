@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HospitalDoctorSelectFragment extends Fragment {
+public class AppointmentDoctorSelectFragment extends Fragment {
 
     RecyclerView doctorSelectRecycler;
     List<VisitingDoctorModel> visitingDoctorModels;
@@ -37,7 +37,7 @@ public class HospitalDoctorSelectFragment extends Fragment {
 
     String time, time2;
 
-    public HospitalDoctorSelectFragment() {
+    public AppointmentDoctorSelectFragment() {
         // Required empty public constructor
     }
 
