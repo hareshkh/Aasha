@@ -7,6 +7,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 
@@ -29,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BookAppointmentFraqment extends Fragment {
+public class BookAppointmentFragment extends Fragment {
 
     TextView doctorName;
     TextView hospitalName;
@@ -39,6 +41,8 @@ public class BookAppointmentFraqment extends Fragment {
 
     Button bookAppointmentButton;
 
+    String date;
+
     String appointmentDateString, appointmentTimeString, appointmentDescriptionString;
     int patientId, hospitalId, doctorId; // To be set from data received in Bundle
 
@@ -46,7 +50,7 @@ public class BookAppointmentFraqment extends Fragment {
 
     ProgressDialog progressDialog;
 
-    public BookAppointmentFraqment() {
+    public BookAppointmentFragment() {
         // Required empty public constructor
     }
 
@@ -62,6 +66,10 @@ public class BookAppointmentFraqment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        patientId = LoginActivity.PATIENT_ID;
+        doctorId = getArguments().getInt("doctor_id");
+        hospitalId = getArguments().getInt("hospital_id");
+        date = getArguments().getString("time");
         return inflater.inflate(R.layout.fragment_book_appointment, container, false);
     }
 
@@ -72,24 +80,12 @@ public class BookAppointmentFraqment extends Fragment {
         doctorName = (TextView) view.findViewById(R.id.doctor_name_appointment);
         hospitalName = (TextView) view.findViewById(R.id.hospital_name_appointment);
         appointmentDate = (TextView) view.findViewById(R.id.date_appointment);
+        appointmentDate.setText(getString(R.string.hint_date_appointment) + "\n" + date);
         appointmentTime = (TextView) view.findViewById(R.id.time_appointment);
         appointmentDescription = (EditText) view.findViewById(R.id.input_description_appointment);
         bookAppointmentButton = (Button) view.findViewById(R.id.button_book_appointment);
 
         calendar = Calendar.getInstance();
-        final DatePickerDialog.OnDateSetListener appointmentDateDialog = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR, year);
-                calendar.set(Calendar.MONTH, month);
-                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-                String format = "yyyy-MM-dd";
-                SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
-                appointmentDate.setText(getString(R.string.hint_date_appointment) + "\n" + sdf.format(calendar.getTime()));
-            }
-        };
-
         final TimePickerDialog.OnTimeSetListener appointmentTimeDialog = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -101,14 +97,6 @@ public class BookAppointmentFraqment extends Fragment {
                 appointmentTime.setText(getString(R.string.hint_time_appointment) + "\n" + sdf.format(calendar.getTime()));
             }
         };
-
-        appointmentDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new DatePickerDialog(getContext(), appointmentDateDialog, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
 
         appointmentTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,13 +116,13 @@ public class BookAppointmentFraqment extends Fragment {
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     ApiCalls.Factory.getInstance().appointmentBookRequest(patientId, hospitalId,
-                            doctorId, appointmentDateString.concat(" "+appointmentTimeString),
+                            doctorId, appointmentDateString.concat(" " + appointmentTimeString),
                             appointmentDescriptionString, "").enqueue(new Callback<AppointmentModel>() {
                         @Override
                         public void onResponse(Call<AppointmentModel> call, Response<AppointmentModel> response) {
                             progressDialog.dismiss();
                             Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
-                            getActivity().onBackPressed();
+                            getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                         }
 
                         @Override

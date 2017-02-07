@@ -14,10 +14,13 @@ import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.fragments.AppointmentFragment;
 import com.iitr.cfd.aasha.fragments.HistoryFragment;
 import com.iitr.cfd.aasha.fragments.HospitalFragment;
+import com.iitr.cfd.aasha.fragments.HospitalSelectFragment;
+import com.iitr.cfd.aasha.fragments.SignUpFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.models.VisitingDoctorModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +40,24 @@ public class HomeActivity extends AppCompatActivity {
     public static List<AppointmentModel> appointments;
     public static List<HospitalModel> hospitals;
     public static List<DoctorModel> doctors;
+    public static List<VisitingDoctorModel> visits;
 
     ProgressDialog progressDialog;
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+        if (count == 0) {
+            super.onBackPressed();
+        } else {
+            getFragmentManager().popBackStack();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -86,6 +99,13 @@ public class HomeActivity extends AppCompatActivity {
                     setupViewPager(viewPager);
                     progressDialog.dismiss();
                 }
+                if (SignUpFragment.isPregnantFlag) {
+                    getSupportFragmentManager()
+                            .beginTransaction()
+                            .add(R.id.frag_container, new HospitalSelectFragment())
+                            .addToBackStack("hospital_select_frag")
+                            .commit();
+                }
             }
 
             @Override
@@ -105,6 +125,18 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<List<DoctorModel>> call, Throwable t) {
                 Toast.makeText(HomeActivity.this, "Failed to fetch doctors", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        ApiCalls.Factory.getInstance().getVisits().enqueue(new Callback<List<VisitingDoctorModel>>() {
+            @Override
+            public void onResponse(Call<List<VisitingDoctorModel>> call, Response<List<VisitingDoctorModel>> response) {
+                visits = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<VisitingDoctorModel>> call, Throwable t) {
+                Toast.makeText(HomeActivity.this, "Failed to fetch visits", Toast.LENGTH_SHORT).show();
             }
         });
 

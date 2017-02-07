@@ -51,7 +51,9 @@ public class SignUpFragment extends Fragment {
 
     String nameString, passwordString, addressString, contactString, conceiveDateString, dueDateString;
     long uidNumber;
-    boolean isPregnantFlag;
+
+    public static boolean isPregnantFlag;
+    int isPregnantInt; // 0 --> NO , 1 --> YES
 
     Calendar calendar;
     ProgressDialog progressDialog;
@@ -161,11 +163,12 @@ public class SignUpFragment extends Fragment {
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     ApiCalls.Factory.getInstance().signupRequest(nameString, uidNumber, passwordString,
-                            "abc", addressString, contactString, isPregnantFlag, dueDateString, conceiveDateString)
+                            "abc", addressString, contactString, isPregnantInt, dueDateString, conceiveDateString)
                             .enqueue(new Callback<PatientModel>() {
                                 @Override
                                 public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
                                     LoginActivity.PATIENT_ID = response.body().getId();
+                                    LoginActivity.patientModel = response.body();
                                     progressDialog.dismiss();
                                     Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
                                     // Open up new activity
@@ -203,11 +206,13 @@ public class SignUpFragment extends Fragment {
         contactString = contact.getText().toString();
         isPregnantFlag = yesButton.isChecked();
         if (isPregnantFlag) {
-            dueDateString = dueDate.getText().toString().substring(dueDate.getText().toString().length()-10);
+            isPregnantInt = 1;
+            dueDateString = dueDate.getText().toString().substring(dueDate.getText().toString().length() - 10);
             dueDateString = dueDateString.concat(" 00:00:00");
-            conceiveDateString = conceiveDate.getText().toString().substring(conceiveDate.getText().toString().length()-10);
+            conceiveDateString = conceiveDate.getText().toString().substring(conceiveDate.getText().toString().length() - 10);
             conceiveDateString = conceiveDateString.concat(" 00:00:00");
         } else {
+            isPregnantInt = 0;
             dueDateString = "";
             conceiveDateString = "";
         }

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.fragments.SignUpFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.models.PatientModel;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView signUpMessage;
 
     public static int PATIENT_ID;
+    public static PatientModel patientModel;
 
     ProgressDialog progressDialog;
 

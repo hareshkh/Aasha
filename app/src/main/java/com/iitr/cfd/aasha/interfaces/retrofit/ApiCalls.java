@@ -4,6 +4,7 @@ import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.PatientModel;
+import com.iitr.cfd.aasha.models.VisitingDoctorModel;
 
 import java.util.List;
 
@@ -13,11 +14,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface ApiCalls {
 
-    String BASE_URL = "http://0c884a4e.ngrok.io/db/";
+    String BASE_URL = "http://04aee59d.ngrok.io/db/";
 
     @GET("hospitals")
     Call<List<HospitalModel>> getHospitals();
@@ -27,6 +30,9 @@ public interface ApiCalls {
 
     @GET("doctors")
     Call<List<DoctorModel>> getDoctors();
+
+    @GET("visits")
+    Call<List<VisitingDoctorModel>> getVisits();
 
     @FormUrlEncoded
     @POST("login")
@@ -40,9 +46,13 @@ public interface ApiCalls {
                                      @Field("image") String image,
                                      @Field("address") String address,
                                      @Field("phone") String phone,
-                                     @Field("pregnant") boolean isPregnant,
+                                     @Field("pregnant") int isPregnant,
                                      @Field("duedate") String dueDate,
                                      @Field("conceivedate") String conceiveDate);
+
+    @FormUrlEncoded
+    @PATCH("patients/{patient_id}")
+    Call<PatientModel> setHospitalId(@Path("patient_id") int patient_id, @Field("hospital_id") int hospitalID);
 
     @FormUrlEncoded
     @POST("appointments")

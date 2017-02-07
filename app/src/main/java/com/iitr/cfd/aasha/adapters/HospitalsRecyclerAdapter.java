@@ -34,6 +34,7 @@ public class HospitalsRecyclerAdapter extends RecyclerView.Adapter<HospitalsRecy
         HospitalModel hospital = hospitalModelList.get(position);
         holder.hospitalName.setText(hospital.getName());
         holder.hospitalContact.setText(hospital.getPhone());
+//        holder.hospitalDistance.setText(hospital.getId());
     }
 
     @Override

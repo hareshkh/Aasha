@@ -15,6 +15,7 @@ import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.adapters.HospitalsRecyclerAdapter;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.utilities.ClickItemTouchListener;
 
 import java.util.List;
 
@@ -56,6 +57,26 @@ public class HospitalFragment extends Fragment {
             hospitalsRecycler.setLayoutManager(linearLayoutManager);
             hospitalsRecycler.setItemAnimator(new DefaultItemAnimator());
             hospitalsRecycler.setAdapter(hospitalsRecyclerAdapter);
+
+            hospitalsRecycler.addOnItemTouchListener(new ClickItemTouchListener(hospitalsRecycler) {
+                @Override
+                public boolean onClick(RecyclerView parent, View view, int position, long id) {
+
+
+                    return true;
+                }
+
+                @Override
+                public boolean onLongClick(RecyclerView parent, View view, int position, long id) {
+                    return false;
+                }
+
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+                }
+            });
+
         }
 
     }

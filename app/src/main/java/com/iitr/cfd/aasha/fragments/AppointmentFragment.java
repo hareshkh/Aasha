@@ -1,8 +1,10 @@
 package com.iitr.cfd.aasha.fragments;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,18 +12,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
+import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.adapters.AppointmentsRecyclerAdapter;
 import com.iitr.cfd.aasha.models.AppointmentModel;
+import com.iitr.cfd.aasha.utilities.Utils;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class AppointmentFragment extends Fragment {
 
     RecyclerView appointmentsRecycler;
     List<AppointmentModel> appointments;
+    FloatingActionButton fab;
 
     public AppointmentFragment() {
         // Required empty public constructor
@@ -30,7 +40,12 @@ public class AppointmentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        appointments = HomeActivity.appointments;
+        appointments = new ArrayList<>();
+        for (AppointmentModel appointmentModel : HomeActivity.appointments) {
+            if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
+                appointments.add(appointmentModel);
+            }
+        }
     }
 
     @Override
@@ -48,6 +63,7 @@ public class AppointmentFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         appointmentsRecycler = (RecyclerView) view.findViewById(R.id.appointments_recycler);
+        fab = (FloatingActionButton) view.findViewById(R.id.new_appointment_fab);
 
         if (appointments != null) {
             AppointmentsRecyclerAdapter appointmentsAdapter = new AppointmentsRecyclerAdapter(getContext(), appointments);
@@ -57,6 +73,45 @@ public class AppointmentFragment extends Fragment {
             appointmentsRecycler.setItemAnimator(new DefaultItemAnimator());
             appointmentsRecycler.setAdapter(appointmentsAdapter);
         }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                final Calendar calendar = Calendar.getInstance();
+                final String[] time = {""};
+                final DatePickerDialog.OnDateSetListener appointmentDateDialog = new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                        String format = "yyyy-MM-dd";
+                        SimpleDateFormat sdf = new SimpleDateFormat(format, Locale.ENGLISH);
+                        time[0] = sdf.format(calendar.getTime());
+
+                        HospitalDoctorSelectFragment hospitalDoctorSelectFragment = new HospitalDoctorSelectFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("time", time[0]);
+                        hospitalDoctorSelectFragment.setArguments(bundle);
+
+                        getActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .add(R.id.frag_container, hospitalDoctorSelectFragment)
+                                .addToBackStack("book_appointment")
+                                .commit();
+
+                    }
+                };
+
+                new DatePickerDialog(getContext(), appointmentDateDialog, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+
+            }
+        });
 
     }
 }

@@ -13,9 +13,12 @@ import android.view.ViewGroup;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
+import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.adapters.AppointmentsRecyclerAdapter;
 import com.iitr.cfd.aasha.models.AppointmentModel;
+import com.iitr.cfd.aasha.utilities.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HistoryFragment extends Fragment {
@@ -30,7 +33,12 @@ public class HistoryFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        appointments = HomeActivity.appointments;
+        appointments = new ArrayList<>();
+        for (AppointmentModel appointmentModel : HomeActivity.appointments) {
+            if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && Utils.isOlder(appointmentModel.getTime())) {
+                appointments.add(appointmentModel);
+            }
+        }
     }
 
     @Override

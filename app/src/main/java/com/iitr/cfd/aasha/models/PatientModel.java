@@ -13,7 +13,7 @@ public class PatientModel {
     private String phone;
 
     @SerializedName("pregnant")
-    private boolean isPregnant;
+    private int isPregnant;
 
     @SerializedName("duedate")
     private String dueDate;
@@ -25,7 +25,7 @@ public class PatientModel {
     private int hospitalId;
 
     public PatientModel(int id, int uid, String name, String password, String photo,
-                        String address, String phone, boolean isPregnant, String dueDate,
+                        String address, String phone, int isPregnant, String dueDate,
                         String conceiveDate, int hospitalId) {
         this.id = id;
         this.uid = uid;
@@ -92,11 +92,11 @@ public class PatientModel {
         this.phone = phone;
     }
 
-    public boolean isPregnant() {
+    public int isPregnant() {
         return isPregnant;
     }
 
-    public void setPregnant(boolean pregnant) {
+    public void setPregnant(int pregnant) {
         isPregnant = pregnant;
     }
 
