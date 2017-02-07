@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="10dp">
 
-    <android.support.v4.widget.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/doctor_image"
         android:layout_width="48dp"
         android:layout_height="48dp"

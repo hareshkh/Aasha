@@ -44,7 +44,7 @@ public class DoctorsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        getArguments().getInt("hospital_id");
+        hospitalID = getArguments().getInt("hospital_id");
         doctors = new ArrayList<>();
         for (VisitingDoctorModel visitingDoctorModel : HomeActivity.visits) {
             if (visitingDoctorModel.getHospitalID() == hospitalID) {
@@ -105,7 +105,7 @@ public class DoctorsFragment extends Fragment {
                         getActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .add(R.id.frag_container, bookAppointmentFragment)
+                                .replace(R.id.frag_container, bookAppointmentFragment)
                                 .addToBackStack("book_appointment")
                                 .commit();
 

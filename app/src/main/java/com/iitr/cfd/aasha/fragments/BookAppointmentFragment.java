@@ -110,6 +110,7 @@ public class BookAppointmentFragment extends Fragment {
         appointmentDate.setText(getString(R.string.hint_date_appointment) + "\n" + date);
 
         appointmentTime = (TextView) view.findViewById(R.id.time_appointment);
+
         appointmentDescription = (EditText) view.findViewById(R.id.input_description_appointment);
 
         bookAppointmentButton = (Button) view.findViewById(R.id.button_book_appointment);
@@ -183,11 +184,11 @@ public class BookAppointmentFragment extends Fragment {
             formStatus = false;
             appointmentDescription.setError("Enter a longer description");
         }
-        if (appointmentDate.getText().toString().equals(getString(R.string.hint_date_appointment))) {
+        if (appointmentDate.getText().toString().equals("")) {
             formStatus = false;
             appointmentDate.setError("Select a date");
         }
-        if (appointmentTime.getText().toString().equals(getString(R.string.hint_time_appointment))) {
+        if (appointmentTime.getText().toString().equals("")) {
             formStatus = false;
             appointmentTime.setError("Select a time");
         }

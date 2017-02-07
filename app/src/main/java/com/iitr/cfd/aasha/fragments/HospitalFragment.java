@@ -63,7 +63,7 @@ public class HospitalFragment extends Fragment {
                 public boolean onClick(RecyclerView parent, View view, int position, long id) {
                     DoctorsFragment doctorsFragment = new DoctorsFragment();
                     Bundle bundle = new Bundle();
-                    bundle.putInt("haspital_id", hospitals.get(position).getId());
+                    bundle.putInt("hospital_id", hospitals.get(position).getId());
                     doctorsFragment.setArguments(bundle);
                     getActivity()
                             .getSupportFragmentManager()

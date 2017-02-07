@@ -32,7 +32,7 @@ public class AppointmentFragment extends Fragment {
 
     public RecyclerView appointmentsRecycler;
     public AppointmentsRecyclerAdapter appointmentsAdapter;
-    public List<AppointmentModel> appointments;
+    public List<AppointmentModel> appointments = new ArrayList<>();
     FloatingActionButton fab;
 
     public AppointmentFragment() {

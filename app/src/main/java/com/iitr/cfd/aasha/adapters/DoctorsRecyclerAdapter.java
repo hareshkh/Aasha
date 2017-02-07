@@ -15,6 +15,8 @@ import com.iitr.cfd.aasha.models.HospitalModel;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 /**
  * Created by haresh on 4/2/17.
  */
@@ -50,13 +52,13 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<DoctorsRecycler
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView doctorImage;
+        CircleImageView doctorImage;
         TextView doctorName;
         TextView doctorDetails;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            doctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
+            doctorImage = (CircleImageView) itemView.findViewById(R.id.doctor_image);
             doctorName = (TextView) itemView.findViewById(R.id.doctor_name);
             doctorDetails = (TextView) itemView.findViewById(R.id.doctor_details);
         }
