@@ -1,8 +1,5 @@
 package com.iitr.cfd.aasha.interfaces.retrofit;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.annotations.SerializedName;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
@@ -23,7 +20,7 @@ import retrofit2.http.Path;
 
 public interface ApiCalls {
 
-    String BASE_URL = "http://04aee59d.ngrok.io/db/";
+    String BASE_URL = "https://aasha-cfd.herokuapp.com/db/";
 
     @GET("hospitals")
     Call<List<HospitalModel>> getHospitals();
