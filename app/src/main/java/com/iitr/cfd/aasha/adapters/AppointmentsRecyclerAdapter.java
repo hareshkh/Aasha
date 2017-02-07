@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.models.AppointmentModel;
+import com.iitr.cfd.aasha.models.DoctorModel;
 
 import java.util.List;
 
@@ -36,6 +38,14 @@ public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<Appointmen
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         AppointmentModel appointment = appointmentModelList.get(position);
+        DoctorModel doctor = null;
+        for (DoctorModel doctorModel : HomeActivity.doctors) {
+            if (doctorModel.getId() == appointment.getDoctorId()) {
+                doctor = doctorModel;
+            }
+        }
+
+        holder.appointmentDoctorText.setText(doctor.getName());
         holder.appointmentTimeText.setText(appointment.getTime());
         holder.appointmentStatusText.setText(appointment.getStatus());
         holder.appointmentDescriptionText.setText(appointment.getDescription());
@@ -48,12 +58,14 @@ public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<Appointmen
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
+        TextView appointmentDoctorText;
         TextView appointmentTimeText;
         TextView appointmentStatusText;
         TextView appointmentDescriptionText;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            appointmentDoctorText = (TextView) itemView.findViewById(R.id.appointment_doctor_name);
             appointmentTimeText = (TextView) itemView.findViewById(R.id.appointment_time);
             appointmentStatusText = (TextView) itemView.findViewById(R.id.appointment_status);
             appointmentDescriptionText = (TextView) itemView.findViewById(R.id.appointment_description);

@@ -1,19 +1,18 @@
 package com.iitr.cfd.aasha.activities;
 
-import android.Manifest;
 import android.app.ProgressDialog;
-import android.content.pm.PackageManager;
-import android.os.Handler;
-import android.support.annotation.NonNull;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
@@ -27,7 +26,6 @@ import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.VisitingDoctorModel;
-import com.iitr.cfd.aasha.utilities.GPSTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +50,8 @@ public class HomeActivity extends AppCompatActivity {
     ViewPagerAdapter adapter;
 
     ProgressDialog progressDialog;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     public void onBackPressed() {
@@ -68,10 +68,17 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        appointments = new ArrayList<>();
+        hospitals = new ArrayList<>();
+        doctors = new ArrayList<>();
+        visits = new ArrayList<>();
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         getData();
+
+        sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
     }
 
     private void getData() {
@@ -193,4 +200,27 @@ public class HomeActivity extends AppCompatActivity {
         ((AppointmentFragment) adapter.getItem(0)).updateList();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_sign_out) {
+            SplashActivity.isLogin = false;
+            LoginActivity.PATIENT_ID = -1;
+            editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

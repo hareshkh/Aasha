@@ -69,7 +69,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        sharedPreferences = getActivity().getSharedPreferences("MY_PREFERENCES", getActivity().MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("MY_PREFERENCES", Context.MODE_PRIVATE);
     }
 
     @Override

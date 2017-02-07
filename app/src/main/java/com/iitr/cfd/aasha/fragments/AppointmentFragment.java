@@ -42,7 +42,6 @@ public class AppointmentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d("APPOINT", HomeActivity.appointments.size() + "");
         appointments = new ArrayList<>();
         for (AppointmentModel appointmentModel : HomeActivity.appointments) {
             if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
