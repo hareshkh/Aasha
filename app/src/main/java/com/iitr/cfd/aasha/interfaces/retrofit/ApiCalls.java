@@ -1,5 +1,8 @@
 package com.iitr.cfd.aasha.interfaces.retrofit;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.SerializedName;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
@@ -65,6 +68,8 @@ public interface ApiCalls {
 
     class Factory {
         public static ApiCalls service;
+
+//        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd hh:mm:ss").create();
 
         public static ApiCalls getInstance() {
             if (service == null) {

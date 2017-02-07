@@ -9,10 +9,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
+import android.widget.Toast;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
@@ -29,8 +31,9 @@ import java.util.Locale;
 
 public class AppointmentFragment extends Fragment {
 
-    RecyclerView appointmentsRecycler;
-    List<AppointmentModel> appointments;
+    public RecyclerView appointmentsRecycler;
+    public AppointmentsRecyclerAdapter appointmentsAdapter;
+    public List<AppointmentModel> appointments;
     FloatingActionButton fab;
 
     public AppointmentFragment() {
@@ -40,12 +43,14 @@ public class AppointmentFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        Log.d("APPOINT", HomeActivity.appointments.size()+"");
         appointments = new ArrayList<>();
         for (AppointmentModel appointmentModel : HomeActivity.appointments) {
             if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
                 appointments.add(appointmentModel);
             }
         }
+        Log.d("APPOINT", appointments.size()+"");
     }
 
     @Override
@@ -66,7 +71,7 @@ public class AppointmentFragment extends Fragment {
         fab = (FloatingActionButton) view.findViewById(R.id.new_appointment_fab);
 
         if (appointments != null) {
-            AppointmentsRecyclerAdapter appointmentsAdapter = new AppointmentsRecyclerAdapter(getContext(), appointments);
+            appointmentsAdapter = new AppointmentsRecyclerAdapter(getContext(), appointments);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
             appointmentsRecycler.setLayoutManager(linearLayoutManager);
@@ -112,6 +117,17 @@ public class AppointmentFragment extends Fragment {
 
             }
         });
-
     }
+
+    public void updateList() {
+        Log.d("APPOINT", HomeActivity.appointments.size()+"");
+        for (AppointmentModel appointmentModel : HomeActivity.appointments) {
+            if (appointmentModel.getPatientId() == LoginActivity.PATIENT_ID && !Utils.isOlder(appointmentModel.getTime())) {
+                appointments.add(appointmentModel);
+            }
+        }
+        Log.d("APPOINT", appointments.size()+"");
+        appointmentsAdapter.notifyDataSetChanged();
+    }
+
 }

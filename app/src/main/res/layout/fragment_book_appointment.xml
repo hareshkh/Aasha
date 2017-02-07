@@ -13,7 +13,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/background">
+            android:background="@color/background"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/doctor_name_appointment"
@@ -54,7 +55,7 @@
                 android:id="@+id/input_layout_description_appointment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/time_appointment"
+                android:layout_below="@id/date_appointment"
                 android:paddingTop="10dp">
 
                 <EditText

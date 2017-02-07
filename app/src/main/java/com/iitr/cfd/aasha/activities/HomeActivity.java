@@ -42,6 +42,8 @@ public class HomeActivity extends AppCompatActivity {
     public static List<DoctorModel> doctors;
     public static List<VisitingDoctorModel> visits;
 
+    ViewPagerAdapter adapter;
+
     ProgressDialog progressDialog;
 
     @Override
@@ -143,7 +145,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new AppointmentFragment(), getString(R.string.tab_one));
         adapter.addFragment(new HospitalFragment(), getString(R.string.tab_two));
         adapter.addFragment(new HistoryFragment(), getString(R.string.tab_three));
@@ -179,4 +181,9 @@ public class HomeActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
+
+    public void updateAppointments() {
+        ((AppointmentFragment) adapter.getItem(0)).updateList();
+    }
+
 }

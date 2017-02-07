@@ -1,5 +1,7 @@
 package com.iitr.cfd.aasha.utilities;
 
+import android.util.Log;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -22,8 +24,10 @@ public class Utils {
         }
 
         if (appointmentTime != null && new Date().after(appointmentTime)) {
+            Log.d("DATE", "IS_OLDER");
             return true;
         }
+        Log.d("DATE", "IS_NEWER");
         return false;
     }
 

@@ -1,11 +1,21 @@
 package com.iitr.cfd.aasha.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class AppointmentModel {
 
+    @SerializedName("id")
     private int id;
+
+    @SerializedName("patient_id")
     private int patientId;
+
+    @SerializedName("hospital_id")
     private int hospitalId;
+
+    @SerializedName("doctor_id")
     private int doctorId;
+
     private String time;
     private String description;
     private String status;
