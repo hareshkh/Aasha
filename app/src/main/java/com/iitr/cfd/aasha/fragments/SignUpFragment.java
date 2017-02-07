@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -49,6 +50,9 @@ public class SignUpFragment extends Fragment {
     TextView conceiveDate;
     Button registerButton;
 
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
+
     String nameString, passwordString, addressString, contactString, conceiveDateString, dueDateString;
     long uidNumber;
 
@@ -65,6 +69,7 @@ public class SignUpFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        sharedPreferences = getActivity().getSharedPreferences("MY_PREFERENCES", getActivity().MODE_PRIVATE);
     }
 
     @Override
@@ -171,6 +176,10 @@ public class SignUpFragment extends Fragment {
                                     LoginActivity.patientModel = response.body();
                                     progressDialog.dismiss();
                                     Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
+                                    editor = sharedPreferences.edit();
+                                    editor.putInt("PID", LoginActivity.PATIENT_ID);
+                                    editor.putBoolean("IS_LOGIN", true);
+                                    editor.commit();
                                     // Open up new activity
                                     Intent intent = new Intent(getContext(), HomeActivity.class);
                                     startActivity(intent);

@@ -3,6 +3,7 @@ package com.iitr.cfd.aasha.activities;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     public static PatientModel patientModel;
 
     ProgressDialog progressDialog;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     boolean perm1 = false;
     GPSTracker gps;
@@ -59,6 +62,8 @@ public class LoginActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.input_password);
         signUpMessage = (TextView) findViewById(R.id.sign_up_message);
 
+        sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +79,10 @@ public class LoginActivity extends AppCompatActivity {
                                 if (response.body() != null) {
                                     PATIENT_ID = response.body();
                                     progressDialog.dismiss();
+                                    editor = sharedPreferences.edit();
+                                    editor.putInt("PID", PATIENT_ID);
+                                    editor.putBoolean("IS_LOGIN", true);
+                                    editor.commit();
                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
