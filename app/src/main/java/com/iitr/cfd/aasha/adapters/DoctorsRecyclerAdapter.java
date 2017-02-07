@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.models.VisitingDoctorModel;
 
 import java.util.List;
 
@@ -25,16 +27,18 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<DoctorsRecycler
 
     Context context;
     List<DoctorModel> doctorModelList;
+    int hospitalID;
 
-    public DoctorsRecyclerAdapter(Context context, List<DoctorModel> doctorModelList) {
+    public DoctorsRecyclerAdapter(Context context, List<DoctorModel> doctorModelList, int hospitalID) {
         this.context = context;
         this.doctorModelList = doctorModelList;
+        this.hospitalID = hospitalID;
     }
 
     @Override
     public DoctorsRecyclerAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.doctor_recycler_item, parent, false);
+                .inflate(R.layout.visiting_doctor_item, parent, false);
         return new DoctorsRecyclerAdapter.MyViewHolder(itemView);
     }
 
@@ -43,6 +47,12 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<DoctorsRecycler
         DoctorModel doctorModel = doctorModelList.get(position);
         holder.doctorName.setText(doctorModel.getName());
         holder.doctorDetails.setText(doctorModel.getDetails());
+        for (HospitalModel hospitalModel : HomeActivity.hospitals) {
+            if (hospitalModel.getId() == hospitalID) {
+                holder.hospitalName.setText(hospitalModel.getName());
+                break;
+            }
+        }
     }
 
     @Override
@@ -52,15 +62,15 @@ public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<DoctorsRecycler
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        CircleImageView doctorImage;
         TextView doctorName;
         TextView doctorDetails;
+        TextView hospitalName;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            doctorImage = (CircleImageView) itemView.findViewById(R.id.doctor_image);
             doctorName = (TextView) itemView.findViewById(R.id.doctor_name);
             doctorDetails = (TextView) itemView.findViewById(R.id.doctor_details);
+            hospitalName = (TextView) itemView.findViewById(R.id.hospital_name);
         }
     }
 

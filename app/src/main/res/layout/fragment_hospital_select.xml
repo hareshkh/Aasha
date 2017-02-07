@@ -2,7 +2,7 @@
     android:id="@+id/hospital_select_recycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/background"
     android:clickable="true">
 
 </android.support.v7.widget.RecyclerView>

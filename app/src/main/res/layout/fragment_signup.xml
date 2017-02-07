@@ -2,18 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:background="@color/background"
-    android:paddingTop="@dimen/activity_vertical_margin">
+    android:background="@color/background">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/register_button_signup"
         android:background="@color/background"
-        android:clickable="true">
+        android:clickable="true"
+        android:padding="10dp">
 
         <RelativeLayout
             android:id="@+id/signup_details"
@@ -24,14 +21,16 @@
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_name_signup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/input_name_signup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_name_signup"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/textColor" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -39,7 +38,8 @@
                 android:id="@+id/input_layout_uid_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_name_signup">
+                android:layout_below="@id/input_layout_name_signup"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/input_uid_signup"
@@ -47,7 +47,8 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_uid_signup"
                     android:inputType="number"
-                    android:maxLength="12" />
+                    android:maxLength="12"
+                    android:textColor="@color/textColor" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -55,14 +56,16 @@
                 android:id="@+id/input_layout_password_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_uid_signup">
+                android:layout_below="@id/input_layout_uid_signup"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/input_password_signup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_password_signup"
-                    android:inputType="textPassword" />
+                    android:inputType="textPassword"
+                    android:textColor="@color/textColor" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -70,14 +73,16 @@
                 android:id="@+id/input_layout_address_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_password_signup">
+                android:layout_below="@id/input_layout_password_signup"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/input_address_signup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_address_signup"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColor="@color/textColor" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -85,14 +90,16 @@
                 android:id="@+id/input_layout_phone_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/input_layout_address_signup">
+                android:layout_below="@id/input_layout_address_signup"
+                android:textColorHint="@color/colorAccent">
 
                 <EditText
                     android:id="@+id/input_phone_signup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_phone_signup"
-                    android:inputType="phone" />
+                    android:inputType="phone"
+                    android:textColor="@color/textColor" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -104,6 +111,7 @@
                 android:layout_marginTop="8dp"
                 android:padding="4dp"
                 android:text="@string/is_pregnant"
+                android:textColor="@color/textColor"
                 android:textSize="18sp" />
 
             <RadioGroup
@@ -120,14 +128,16 @@
                     android:id="@+id/yes_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/yes" />
+                    android:text="@string/yes"
+                    android:textColor="@color/textColor" />
 
                 <RadioButton
                     android:id="@+id/no_radio_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true"
-                    android:text="@string/no" />
+                    android:text="@string/no"
+                    android:textColor="@color/textColor" />
             </RadioGroup>
 
             <TextView
@@ -136,8 +146,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/radio_group_signup"
                 android:layout_marginTop="10dp"
-                android:hint="@string/hint_conceivedate_signup"
                 android:padding="4dp"
+                android:text="@string/hint_conceivedate_signup"
+                android:textColor="@color/textColor"
                 android:textSize="18sp" />
 
             <TextView
@@ -146,8 +157,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/input_conceivedate_signup"
                 android:layout_marginTop="18dp"
-                android:hint="@string/hint_duedate_signup"
                 android:padding="4dp"
+                android:text="@string/hint_duedate_signup"
+                android:textColor="@color/textColor"
                 android:textSize="18sp" />
         </RelativeLayout>
 
@@ -158,6 +170,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="@string/register_button_text" />
+        android:background="@color/colorAccent"
+        android:text="@string/register_button_text"
+        android:textColor="@color/colorPrimary" />
 </RelativeLayout>
 

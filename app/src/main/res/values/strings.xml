@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Aasha</string>
+    <string name="app_name">aasha</string>
 
     <!--Login strings-->
     <string name="hint_uid">Aadhaar Number/आधार नंबर</string>

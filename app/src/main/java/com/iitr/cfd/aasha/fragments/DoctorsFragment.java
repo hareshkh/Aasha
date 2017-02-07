@@ -70,7 +70,7 @@ public class DoctorsFragment extends Fragment {
 
         doctorsRecycler = (RecyclerView) view.findViewById(R.id.doctors_recycler);
 
-        DoctorsRecyclerAdapter doctorsRecyclerAdapter = new DoctorsRecyclerAdapter(getContext(), doctors);
+        DoctorsRecyclerAdapter doctorsRecyclerAdapter = new DoctorsRecyclerAdapter(getContext(), doctors, hospitalID);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 

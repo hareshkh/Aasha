@@ -184,11 +184,11 @@ public class BookAppointmentFragment extends Fragment {
             formStatus = false;
             appointmentDescription.setError("Enter a longer description");
         }
-        if (appointmentDate.getText().toString().equals("")) {
+        if (appointmentDate.getText().toString().equals(getString(R.string.hint_date_appointment))) {
             formStatus = false;
             appointmentDate.setError("Select a date");
         }
-        if (appointmentTime.getText().toString().equals("")) {
+        if (appointmentTime.getText().toString().equals(getString(R.string.hint_time_appointment))) {
             formStatus = false;
             appointmentTime.setError("Select a time");
         }

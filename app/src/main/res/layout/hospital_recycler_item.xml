@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="name"
+        android:textColor="@color/textColor"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -19,6 +20,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/hospital_name"
         android:text="phone"
+        android:textColor="@color/textColor"
         android:textSize="16sp" />
 
     <TextView
@@ -28,6 +30,7 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@+id/hospital_name"
         android:text="dis"
+        android:textColor="@color/textColor"
         android:textSize="16sp" />
 
 </RelativeLayout>

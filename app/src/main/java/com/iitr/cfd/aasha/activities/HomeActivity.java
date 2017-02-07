@@ -1,10 +1,16 @@
 package com.iitr.cfd.aasha.activities;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.pm.PackageManager;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +27,7 @@ import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.VisitingDoctorModel;
+import com.iitr.cfd.aasha.utilities.GPSTracker;
 
 import java.util.ArrayList;
 import java.util.List;

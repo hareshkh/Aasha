@@ -1,6 +1,7 @@
 package com.iitr.cfd.aasha.adapters;
 
 import android.content.Context;
+import android.location.Location;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
+import com.iitr.cfd.aasha.activities.HomeActivity;
+import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.models.HospitalModel;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class HospitalsRecyclerAdapter extends RecyclerView.Adapter<HospitalsRecyclerAdapter.MyViewHolder> {
@@ -34,7 +38,16 @@ public class HospitalsRecyclerAdapter extends RecyclerView.Adapter<HospitalsRecy
         HospitalModel hospital = hospitalModelList.get(position);
         holder.hospitalName.setText(hospital.getName());
         holder.hospitalContact.setText(hospital.getPhone());
-//        holder.hospitalDistance.setText(hospital.getId());
+
+        Location location = new Location("");
+        location.setLatitude(LoginActivity.currLatitude);
+        location.setLongitude(LoginActivity.currLongitude);
+
+        Location location1 = new Location("");
+        location1.setLatitude(hospital.getLatitude());
+        location1.setLongitude(hospital.getLongitude());
+
+        holder.hospitalDistance.setText(new DecimalFormat("#.##").format(location.distanceTo(location1) / 1000) + " Km");
     }
 
     @Override

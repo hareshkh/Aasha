@@ -127,7 +127,8 @@ public class AppointmentFragment extends Fragment {
             }
         }
         Log.d("APPOINT", appointments.size() + "");
-        appointmentsAdapter.notifyDataSetChanged();
+        if (appointmentsAdapter != null)
+            appointmentsAdapter.notifyDataSetChanged();
     }
 
 }
