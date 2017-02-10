@@ -14,10 +14,6 @@ import com.iitr.cfd.aasha.models.DoctorModel;
 
 import java.util.List;
 
-/**
- * Created by haresh on 4/2/17.
- */
-
 public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<AppointmentsRecyclerAdapter.MyViewHolder> {
 
     Context context;
@@ -43,6 +39,10 @@ public class AppointmentsRecyclerAdapter extends RecyclerView.Adapter<Appointmen
             if (doctorModel.getId() == appointment.getDoctorId()) {
                 doctor = doctorModel;
             }
+        }
+
+        if (doctor == null) {
+            return;
         }
 
         holder.appointmentDoctorText.setText(doctor.getName());

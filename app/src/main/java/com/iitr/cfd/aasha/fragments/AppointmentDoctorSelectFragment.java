@@ -1,8 +1,6 @@
 package com.iitr.cfd.aasha.fragments;
 
-
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,8 +14,8 @@ import android.view.ViewGroup;
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.adapters.DoctorSelectAdapter;
+import com.iitr.cfd.aasha.models.DoctorHospitalPairModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
-import com.iitr.cfd.aasha.models.DoctorSelectModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.VisitingDoctorModel;
 import com.iitr.cfd.aasha.utilities.ClickItemTouchListener;
@@ -26,14 +24,11 @@ import com.iitr.cfd.aasha.utilities.Utils;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class AppointmentDoctorSelectFragment extends Fragment {
 
     RecyclerView doctorSelectRecycler;
     List<VisitingDoctorModel> visitingDoctorModels;
-    List<DoctorSelectModel> doctorSelectModels;
+    List<DoctorHospitalPairModel> doctorHospitalPairModels;
 
     String time, time2;
 
@@ -49,7 +44,7 @@ public class AppointmentDoctorSelectFragment extends Fragment {
         time2 = time.concat(" 00:00:00");
 
         visitingDoctorModels = new ArrayList<>();
-        doctorSelectModels = new ArrayList<>();
+        doctorHospitalPairModels = new ArrayList<>();
         for (VisitingDoctorModel visitingDoctorModel : HomeActivity.visits) {
             if (Utils.isOlder(visitingDoctorModel.getBeginTime(), time2) && Utils.isOlder(time2, visitingDoctorModel.getEndTime())) {
                 visitingDoctorModels.add(visitingDoctorModel);
@@ -69,7 +64,7 @@ public class AppointmentDoctorSelectFragment extends Fragment {
                     }
                 }
 
-                doctorSelectModels.add(new DoctorSelectModel(doctor, hospital));
+                doctorHospitalPairModels.add(new DoctorHospitalPairModel(doctor, hospital));
             }
         }
     }
@@ -87,7 +82,7 @@ public class AppointmentDoctorSelectFragment extends Fragment {
 
         doctorSelectRecycler = (RecyclerView) view.findViewById(R.id.hospital_doctor_select_recycler);
 
-        DoctorSelectAdapter doctorSelectAdapter = new DoctorSelectAdapter(getContext(), doctorSelectModels);
+        DoctorSelectAdapter doctorSelectAdapter = new DoctorSelectAdapter(getContext(), doctorHospitalPairModels);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
 
         doctorSelectRecycler.setLayoutManager(linearLayoutManager);
@@ -101,8 +96,8 @@ public class AppointmentDoctorSelectFragment extends Fragment {
                 BookAppointmentFragment bookAppointmentFragment = new BookAppointmentFragment();
                 Bundle bundle = new Bundle();
                 bundle.putString("time", time);
-                bundle.putInt("doctor_id", doctorSelectModels.get(position).getDoctorModel().getId());
-                bundle.putInt("hospital_id", doctorSelectModels.get(position).getHospitalModel().getId());
+                bundle.putInt("doctor_id", doctorHospitalPairModels.get(position).getDoctorModel().getId());
+                bundle.putInt("hospital_id", doctorHospitalPairModels.get(position).getHospitalModel().getId());
                 bookAppointmentFragment.setArguments(bundle);
 
                 getActivity()

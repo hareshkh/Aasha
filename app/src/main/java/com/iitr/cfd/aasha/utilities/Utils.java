@@ -7,10 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Harjot on 07-Feb-17.
- */
-
 public class Utils {
 
     public static boolean isOlder(String time) {
@@ -47,7 +43,6 @@ public class Utils {
         }
         return false;
     }
-
 
 
 }

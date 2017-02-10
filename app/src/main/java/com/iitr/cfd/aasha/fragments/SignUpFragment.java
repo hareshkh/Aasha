@@ -38,6 +38,7 @@ import retrofit2.Response;
 
 public class SignUpFragment extends Fragment {
 
+    public static boolean isPregnantFlag;
     EditText name;
     EditText uid;
     EditText password;
@@ -49,14 +50,10 @@ public class SignUpFragment extends Fragment {
     TextView dueDate;
     TextView conceiveDate;
     Button registerButton;
-
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
     String nameString, passwordString, addressString, contactString, conceiveDateString, dueDateString;
     long uidNumber;
-
-    public static boolean isPregnantFlag;
     int isPregnantInt; // 0 --> NO , 1 --> YES
 
     Calendar calendar;

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
-import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.models.HospitalModel;
 

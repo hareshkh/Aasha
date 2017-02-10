@@ -5,23 +5,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageSwitcher;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
-import com.iitr.cfd.aasha.models.VisitingDoctorModel;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
-
-/**
- * Created by haresh on 4/2/17.
- */
 
 public class DoctorsRecyclerAdapter extends RecyclerView.Adapter<DoctorsRecyclerAdapter.MyViewHolder> {
 

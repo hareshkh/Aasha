@@ -10,10 +10,6 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**
- * Created by Harjot on 18-May-16.
- */
-
 public abstract class ClickItemTouchListener implements OnItemTouchListener {
     private static final String LOGTAG = "ClickItemTouchListener";
 

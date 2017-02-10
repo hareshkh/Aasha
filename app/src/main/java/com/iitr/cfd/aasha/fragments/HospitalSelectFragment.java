@@ -1,6 +1,5 @@
 package com.iitr.cfd.aasha.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.iitr.cfd.aasha.activities.LoginActivity;
-import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
-import com.iitr.cfd.aasha.models.PatientModel;
-import com.iitr.cfd.aasha.utilities.ClickItemTouchListener;
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
+import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.adapters.HospitalsRecyclerAdapter;
+import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.models.PatientModel;
+import com.iitr.cfd.aasha.utilities.ClickItemTouchListener;
 
 import java.util.List;
 
@@ -29,9 +27,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class HospitalSelectFragment extends Fragment {
 
     RecyclerView hospitalSelectRecycler;

@@ -1,6 +1,5 @@
 package com.iitr.cfd.aasha.fragments;
 
-
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -27,9 +26,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DoctorsFragment extends Fragment {
 
     RecyclerView doctorsRecycler;

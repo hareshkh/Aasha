@@ -8,22 +8,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.iitr.cfd.aasha.R;
-import com.iitr.cfd.aasha.models.DoctorModel;
-import com.iitr.cfd.aasha.models.DoctorSelectModel;
-import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.models.DoctorHospitalPairModel;
 
 import java.util.List;
 
-/**
- * Created by Harjot on 07-Feb-17.
- */
-
 public class DoctorSelectAdapter extends RecyclerView.Adapter<DoctorSelectAdapter.MyViewHolder> {
 
-    List<DoctorSelectModel> doctorSelectModels;
+    List<DoctorHospitalPairModel> doctorHospitalPairModels;
 
-    public DoctorSelectAdapter(Context context, List<DoctorSelectModel> doctorSelectModels) {
-        this.doctorSelectModels = doctorSelectModels;
+    public DoctorSelectAdapter(Context context, List<DoctorHospitalPairModel> doctorHospitalPairModels) {
+        this.doctorHospitalPairModels = doctorHospitalPairModels;
     }
 
     @Override
@@ -35,14 +29,14 @@ public class DoctorSelectAdapter extends RecyclerView.Adapter<DoctorSelectAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.doctorName.setText(doctorSelectModels.get(position).getDoctorModel().getName());
-        holder.hospitalName.setText(doctorSelectModels.get(position).getHospitalModel().getName());
-        holder.doctorDetails.setText(doctorSelectModels.get(position).getDoctorModel().getDetails());
+        holder.doctorName.setText(doctorHospitalPairModels.get(position).getDoctorModel().getName());
+        holder.hospitalName.setText(doctorHospitalPairModels.get(position).getHospitalModel().getName());
+        holder.doctorDetails.setText(doctorHospitalPairModels.get(position).getDoctorModel().getDetails());
     }
 
     @Override
     public int getItemCount() {
-        return doctorSelectModels.size();
+        return doctorHospitalPairModels.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

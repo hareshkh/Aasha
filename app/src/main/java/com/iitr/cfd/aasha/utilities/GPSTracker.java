@@ -1,9 +1,5 @@
 package com.iitr.cfd.aasha.utilities;
 
-/**
- * Created by Harjot on 29-Dec-15.
- */
-
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -19,29 +15,22 @@ import android.util.Log;
 
 public class GPSTracker extends Service implements LocationListener {
 
+    // The minimum distance to change Updates in meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
+    // The minimum time between updates in milliseconds
+    private static final long MIN_TIME_BW_UPDATES = 1000 * 3 * 1; // 3 seconds
     private final Context mContext;
-
+    // Declaring a Location Manager
+    protected LocationManager locationManager;
     // flag for GPS status
     boolean isGPSEnabled = false;
-
     // flag for network status
     boolean isNetworkEnabled = false;
-
     // flag for GPS status
     boolean canGetLocation = false;
-
     Location location; // location
     double latitude; // latitude
     double longitude; // longitude
-
-    // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 1 meters
-
-    // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 3 * 1; // 3 seconds
-
-    // Declaring a Location Manager
-    protected LocationManager locationManager;
 
     public GPSTracker(Context context) {
         this.mContext = context;

@@ -3,9 +3,9 @@ package com.iitr.cfd.aasha.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,8 +14,8 @@ import com.iitr.cfd.aasha.R;
 public class SplashActivity extends AppCompatActivity {
 
     public static Typeface tf;
-    TextView appName;
     public static boolean isLogin;
+    TextView appName;
     SharedPreferences sharedPreferences;
     Intent intent;
 

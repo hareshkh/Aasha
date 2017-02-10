@@ -36,22 +36,18 @@ import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-
-    boolean appointmentsFetched = false;
-    boolean hospitalsFetched = false;
-
     public static List<AppointmentModel> appointments;
     public static List<HospitalModel> hospitals;
     public static List<DoctorModel> doctors;
     public static List<VisitingDoctorModel> visits;
-
+    boolean appointmentsFetched = false;
+    boolean hospitalsFetched = false;
     ViewPagerAdapter adapter;
-
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     @Override
     public void onBackPressed() {
@@ -167,6 +163,34 @@ public class HomeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
     }
 
+    public void updateAppointments() {
+        ((AppointmentFragment) adapter.getItem(0)).updateList();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.menu_sign_out) {
+            SplashActivity.isLogin = false;
+            LoginActivity.PATIENT_ID = -1;
+            editor = sharedPreferences.edit();
+            editor.clear();
+            editor.commit();
+            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     class ViewPagerAdapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -194,33 +218,5 @@ public class HomeActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    public void updateAppointments() {
-        ((AppointmentFragment) adapter.getItem(0)).updateList();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.menu_sign_out) {
-            SplashActivity.isLogin = false;
-            LoginActivity.PATIENT_ID = -1;
-            editor = sharedPreferences.edit();
-            editor.clear();
-            editor.commit();
-            Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

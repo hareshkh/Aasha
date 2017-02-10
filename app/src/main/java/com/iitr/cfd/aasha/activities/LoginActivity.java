@@ -33,22 +33,19 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static int PATIENT_ID;
+    public static PatientModel patientModel;
+    public static double currLatitude = -1;
+    public static double currLongitude = -1;
     Button submitButton;
     EditText uidText;
     EditText password;
     TextView signUpMessage;
-
-    public static int PATIENT_ID;
-    public static PatientModel patientModel;
-
     ProgressDialog progressDialog;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
     boolean perm1 = false;
     GPSTracker gps;
-    public static double currLatitude = -1;
-    public static double currLongitude = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

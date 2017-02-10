@@ -4,11 +4,11 @@ package com.iitr.cfd.aasha.models;
  * Created by Harjot on 07-Feb-17.
  */
 
-public class DoctorSelectModel {
+public class DoctorHospitalPairModel {
     DoctorModel doctorModel;
     HospitalModel hospitalModel;
 
-    public DoctorSelectModel(DoctorModel doctorModel, HospitalModel hospitalModel) {
+    public DoctorHospitalPairModel(DoctorModel doctorModel, HospitalModel hospitalModel) {
         this.doctorModel = doctorModel;
         this.hospitalModel = hospitalModel;
     }
