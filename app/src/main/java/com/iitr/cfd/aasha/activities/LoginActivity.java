@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Telephony;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -21,8 +22,11 @@ import android.widget.Toast;
 import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.fragments.SignUpFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.interfaces.sms.SmsCallback;
 import com.iitr.cfd.aasha.models.PatientModel;
 import com.iitr.cfd.aasha.utilities.GPSTracker;
+import com.iitr.cfd.aasha.utilities.NetworkUtils;
+import com.iitr.cfd.aasha.utilities.SmsHandler;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
@@ -70,11 +74,38 @@ public class LoginActivity extends AppCompatActivity {
                     progressDialog.setCancelable(false);
                     progressDialog.show();
                     try {
-                        ApiCalls.Factory.getInstance().loginRequest(Long.parseLong(uidText.getText().toString()), StringUtils.encryptSHA256(password.getText().toString())).enqueue(new Callback<Integer>() {
-                            @Override
-                            public void onResponse(Call<Integer> call, Response<Integer> response) {
-                                if (response.body() != null) {
-                                    PATIENT_ID = response.body();
+                        if(NetworkUtils.isNetworkAvailable(LoginActivity.this)) {
+                            ApiCalls.Factory.getInstance().loginRequest(Long.parseLong(uidText.getText().toString()), StringUtils.encryptSHA256(password.getText().toString())).enqueue(new Callback<Integer>() {
+                                @Override
+                                public void onResponse(Call<Integer> call, Response<Integer> response) {
+                                    if (response.body() != null) {
+                                        PATIENT_ID = response.body();
+                                        progressDialog.dismiss();
+                                        editor = sharedPreferences.edit();
+                                        editor.putInt("PID", PATIENT_ID);
+                                        editor.putBoolean("IS_LOGIN", true);
+                                        editor.commit();
+                                        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    } else {
+                                        Toast.makeText(LoginActivity.this, "No record found", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<Integer> call, Throwable t) {
+                                    Toast.makeText(LoginActivity.this, "No record found", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                }
+                            });
+                        } else {
+                            progressDialog.setMessage("Validating through SMS");
+                            SmsHandler.loginRequest(Long.parseLong(uidText.getText().toString()), StringUtils.encryptSHA256(password.getText().toString()), new SmsCallback<Integer>() {
+                                @Override
+                                public void onReceive(Integer integer) {
+                                    PATIENT_ID = integer;
                                     progressDialog.dismiss();
                                     editor = sharedPreferences.edit();
                                     editor.putInt("PID", PATIENT_ID);
@@ -83,18 +114,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                                     startActivity(intent);
                                     finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "No record found", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
                                 }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Integer> call, Throwable t) {
-                                Toast.makeText(LoginActivity.this, "No record found", Toast.LENGTH_SHORT).show();
-                                progressDialog.dismiss();
-                            }
-                        });
+                            });
+                        }
                     } catch (NoSuchAlgorithmException e) {
                         progressDialog.dismiss();
                         e.printStackTrace();

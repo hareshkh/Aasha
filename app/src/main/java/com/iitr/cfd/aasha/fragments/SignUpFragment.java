@@ -24,7 +24,10 @@ import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.interfaces.sms.SmsCallback;
 import com.iitr.cfd.aasha.models.PatientModel;
+import com.iitr.cfd.aasha.utilities.NetworkUtils;
+import com.iitr.cfd.aasha.utilities.SmsHandler;
 import com.iitr.cfd.aasha.utilities.StringUtils;
 
 import java.security.NoSuchAlgorithmException;
@@ -164,32 +167,54 @@ public class SignUpFragment extends Fragment {
                     progressDialog.setMessage("Validating");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    ApiCalls.Factory.getInstance().signupRequest(nameString, uidNumber, passwordString,
-                            "abc", addressString, contactString, isPregnantInt, dueDateString, conceiveDateString)
-                            .enqueue(new Callback<PatientModel>() {
-                                @Override
-                                public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
-                                    LoginActivity.PATIENT_ID = response.body().getId();
-                                    LoginActivity.patientModel = response.body();
-                                    progressDialog.dismiss();
-                                    Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
-                                    editor = sharedPreferences.edit();
-                                    editor.putInt("PID", LoginActivity.PATIENT_ID);
-                                    editor.putBoolean("IS_LOGIN", true);
-                                    editor.commit();
-                                    // Open up new activity
-                                    Intent intent = new Intent(getContext(), HomeActivity.class);
-                                    startActivity(intent);
-                                    getActivity().finish();
-                                }
+                    if(NetworkUtils.isNetworkAvailable(getContext())) {
+                        ApiCalls.Factory.getInstance().signupRequest(nameString, uidNumber, passwordString,
+                                "abc", addressString, contactString, isPregnantInt, dueDateString, conceiveDateString)
+                                .enqueue(new Callback<PatientModel>() {
+                                    @Override
+                                    public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
+                                        LoginActivity.PATIENT_ID = response.body().getId();
+                                        LoginActivity.patientModel = response.body();
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
+                                        editor = sharedPreferences.edit();
+                                        editor.putInt("PID", LoginActivity.PATIENT_ID);
+                                        editor.putBoolean("IS_LOGIN", true);
+                                        editor.commit();
+                                        // Open up new activity
+                                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    }
 
-                                @Override
-                                public void onFailure(Call<PatientModel> call, Throwable t) {
-                                    Log.d("RETRO", t.getMessage());
-                                    Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<PatientModel> call, Throwable t) {
+                                        Log.d("RETRO", t.getMessage());
+                                        Toast.makeText(getContext(), "Try again.", Toast.LENGTH_SHORT).show();
+                                        progressDialog.dismiss();
+                                    }
+                                });
+                    } else {
+                        progressDialog.setMessage("Validating through SMS");
+                        SmsHandler.signupRequest(nameString, uidNumber, passwordString,
+                                "abc", addressString, contactString, isPregnantInt, dueDateString, conceiveDateString, new SmsCallback<PatientModel>() {
+                                    @Override
+                                    public void onReceive(PatientModel patientModel) {
+                                        LoginActivity.PATIENT_ID = patientModel.getId();
+                                        LoginActivity.patientModel = patientModel;
+                                        progressDialog.dismiss();
+                                        Toast.makeText(getContext(), "You have been successfully registered", Toast.LENGTH_SHORT).show();
+                                        editor = sharedPreferences.edit();
+                                        editor.putInt("PID", LoginActivity.PATIENT_ID);
+                                        editor.putBoolean("IS_LOGIN", true);
+                                        editor.commit();
+                                        // Open up new activity
+                                        Intent intent = new Intent(getContext(), HomeActivity.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
+                                    }
+                                });
+                    }
                 } else {
                     Toast.makeText(getContext(), "Fill the form completely", Toast.LENGTH_SHORT).show();
                 }

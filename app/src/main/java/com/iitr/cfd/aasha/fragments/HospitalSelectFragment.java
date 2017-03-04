@@ -17,9 +17,12 @@ import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.adapters.HospitalsRecyclerAdapter;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.interfaces.sms.SmsCallback;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.PatientModel;
 import com.iitr.cfd.aasha.utilities.ClickItemTouchListener;
+import com.iitr.cfd.aasha.utilities.NetworkUtils;
+import com.iitr.cfd.aasha.utilities.SmsHandler;
 
 import java.util.List;
 
@@ -66,18 +69,27 @@ public class HospitalSelectFragment extends Fragment {
             @Override
             public boolean onClick(RecyclerView parent, View view, final int position, long id) {
                 LoginActivity.patientModel.setHospitalId(hospitals.get(position).getId());
-                ApiCalls.Factory.getInstance().setHospitalId(LoginActivity.PATIENT_ID, hospitals.get(position).getId()).enqueue(new Callback<PatientModel>() {
-                    @Override
-                    public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
-                        Log.d("RETRO", "Successful Patch");
-                        LoginActivity.patientModel = response.body();
-                    }
+                if(NetworkUtils.isNetworkAvailable(getContext())) {
+                    ApiCalls.Factory.getInstance().setHospitalId(LoginActivity.PATIENT_ID, hospitals.get(position).getId()).enqueue(new Callback<PatientModel>() {
+                        @Override
+                        public void onResponse(Call<PatientModel> call, Response<PatientModel> response) {
+                            Log.d("RETRO", "Successful Patch");
+                            LoginActivity.patientModel = response.body();
+                        }
 
-                    @Override
-                    public void onFailure(Call<PatientModel> call, Throwable t) {
-                        Log.d("RETRO123", t.getMessage());
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<PatientModel> call, Throwable t) {
+                            Log.d("RETRO123", t.getMessage());
+                        }
+                    });
+                } else {
+                    SmsHandler.setHospitalId(LoginActivity.PATIENT_ID, hospitals.get(position).getId(), new SmsCallback<PatientModel>() {
+                        @Override
+                        public void onReceive(PatientModel patientModel) {
+                            LoginActivity.patientModel = patientModel;
+                        }
+                    });
+                }
                 getActivity().getSupportFragmentManager().popBackStack();
                 return true;
             }

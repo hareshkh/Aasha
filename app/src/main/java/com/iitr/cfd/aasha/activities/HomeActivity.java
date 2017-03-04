@@ -43,6 +43,12 @@ public class HomeActivity extends AppCompatActivity {
     public static List<HospitalModel> hospitals;
     public static List<DoctorModel> doctors;
     public static List<VisitingDoctorModel> visits;
+
+    public SmsCallback<List<AppointmentModel>> appointmentsCallback;
+    public SmsCallback<List<HospitalModel>> hospitalsCallback;
+    public SmsCallback<List<DoctorModel>> doctorsCallback;
+    public SmsCallback<List<VisitingDoctorModel>> visitsCallback;
+
     boolean appointmentsFetched = false;
     boolean hospitalsFetched = false;
     ViewPagerAdapter adapter;
@@ -159,7 +165,7 @@ public class HomeActivity extends AppCompatActivity {
         } else {
             progressDialog.setMessage("Fetching data through SMS");
 
-            SmsHandler.getAppointments(LoginActivity.PATIENT_ID, new SmsCallback<List<AppointmentModel>>() {
+            appointmentsCallback = new SmsCallback<List<AppointmentModel>>() {
                 @Override
                 public void onReceive(List<AppointmentModel> appointmentModels) {
                     appointmentsFetched = true;
@@ -168,8 +174,46 @@ public class HomeActivity extends AppCompatActivity {
                         setupViewPager(viewPager);
                         progressDialog.dismiss();
                     }
+                    SmsHandler.getHospitals(hospitalsCallback);
                 }
-            });
+            };
+
+            hospitalsCallback = new SmsCallback<List<HospitalModel>>() {
+                @Override
+                public void onReceive(List<HospitalModel> hospitalModels) {
+                    hospitalsFetched = true;
+                    hospitals = hospitalModels;
+                    if (appointmentsFetched) {
+                        setupViewPager(viewPager);
+                        progressDialog.dismiss();
+                    }
+                    if (SignUpFragment.isPregnantFlag) {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .add(R.id.frag_container, new HospitalSelectFragment())
+                                .addToBackStack("hospital_select_frag")
+                                .commit();
+                    }
+                    SmsHandler.getDoctors(doctorsCallback);
+                }
+            };
+
+            doctorsCallback = new SmsCallback<List<DoctorModel>>() {
+                @Override
+                public void onReceive(List<DoctorModel> doctorModels) {
+                    doctors = doctorModels;
+                    SmsHandler.getVisits(visitsCallback);
+                }
+            };
+
+            visitsCallback = new SmsCallback<List<VisitingDoctorModel>>() {
+                @Override
+                public void onReceive(List<VisitingDoctorModel> visitingDoctorModels) {
+                    visits = visitingDoctorModels;
+                }
+            };
+
+            SmsHandler.getAppointments(LoginActivity.PATIENT_ID, appointmentsCallback);
 
         }
 

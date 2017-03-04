@@ -21,9 +21,12 @@ import com.iitr.cfd.aasha.R;
 import com.iitr.cfd.aasha.activities.HomeActivity;
 import com.iitr.cfd.aasha.activities.LoginActivity;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.interfaces.sms.SmsCallback;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
+import com.iitr.cfd.aasha.utilities.NetworkUtils;
+import com.iitr.cfd.aasha.utilities.SmsHandler;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -144,25 +147,41 @@ public class BookAppointmentFragment extends Fragment {
                     progressDialog.setMessage("Booking your appointment");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-                    ApiCalls.Factory.getInstance().appointmentBookRequest(patientId, hospitalId,
-                            doctorId, appointmentDateString.concat(" " + appointmentTimeString),
-                            appointmentDescriptionString, "Pending").enqueue(new Callback<AppointmentModel>() {
-                        @Override
-                        public void onResponse(Call<AppointmentModel> call, Response<AppointmentModel> response) {
-                            progressDialog.dismiss();
-                            HomeActivity.appointments.add(response.body());
-                            ((HomeActivity) getActivity()).updateAppointments();
-                            Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
-                            getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        }
+                    if(NetworkUtils.isNetworkAvailable(getContext())) {
+                        ApiCalls.Factory.getInstance().appointmentBookRequest(patientId, hospitalId,
+                                doctorId, appointmentDateString.concat(" " + appointmentTimeString),
+                                appointmentDescriptionString, "Pending").enqueue(new Callback<AppointmentModel>() {
+                            @Override
+                            public void onResponse(Call<AppointmentModel> call, Response<AppointmentModel> response) {
+                                progressDialog.dismiss();
+                                HomeActivity.appointments.add(response.body());
+                                ((HomeActivity) getActivity()).updateAppointments();
+                                Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
+                                getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                            }
 
-                        @Override
-                        public void onFailure(Call<AppointmentModel> call, Throwable t) {
-                            progressDialog.dismiss();
-                            Log.d("RETRO", t.getMessage());
-                            Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<AppointmentModel> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Log.d("RETRO", t.getMessage());
+                                Toast.makeText(getContext(), "Try again", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        progressDialog.setMessage("Booking your appointment through SMS");
+                        SmsHandler.appointmentBookRequest(patientId, hospitalId,
+                                doctorId, appointmentDateString.concat(" " + appointmentTimeString),
+                                appointmentDescriptionString, "Pending", new SmsCallback<AppointmentModel>() {
+                                    @Override
+                                    public void onReceive(AppointmentModel appointmentModel) {
+                                        progressDialog.dismiss();
+                                        HomeActivity.appointments.add(appointmentModel);
+                                        ((HomeActivity) getActivity()).updateAppointments();
+                                        Toast.makeText(getContext(), "Appointment booked", Toast.LENGTH_SHORT).show();
+                                        getActivity().getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                    }
+                                });
+                    }
                 } else {
                     Toast.makeText(getContext(), "Fill the form completely", Toast.LENGTH_SHORT).show();
                 }
