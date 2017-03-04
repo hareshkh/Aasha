@@ -22,10 +22,13 @@ import com.iitr.cfd.aasha.fragments.HospitalFragment;
 import com.iitr.cfd.aasha.fragments.HospitalSelectFragment;
 import com.iitr.cfd.aasha.fragments.SignUpFragment;
 import com.iitr.cfd.aasha.interfaces.retrofit.ApiCalls;
+import com.iitr.cfd.aasha.interfaces.sms.SmsCallback;
 import com.iitr.cfd.aasha.models.AppointmentModel;
 import com.iitr.cfd.aasha.models.DoctorModel;
 import com.iitr.cfd.aasha.models.HospitalModel;
 import com.iitr.cfd.aasha.models.VisitingDoctorModel;
+import com.iitr.cfd.aasha.utilities.NetworkUtils;
+import com.iitr.cfd.aasha.utilities.SmsHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,74 +86,92 @@ public class HomeActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.show();
 
-        ApiCalls.Factory.getInstance().getAppointments().enqueue(new Callback<List<AppointmentModel>>() {
-            @Override
-            public void onResponse(Call<List<AppointmentModel>> call, Response<List<AppointmentModel>> response) {
-                appointmentsFetched = true;
-                appointments = response.body();
-                if (hospitalsFetched) {
+        if(NetworkUtils.isNetworkAvailable(this)) {
+
+            ApiCalls.Factory.getInstance().getAppointments().enqueue(new Callback<List<AppointmentModel>>() {
+                @Override
+                public void onResponse(Call<List<AppointmentModel>> call, Response<List<AppointmentModel>> response) {
+                    appointmentsFetched = true;
+                    appointments = response.body();
+                    if (hospitalsFetched) {
+                        setupViewPager(viewPager);
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<AppointmentModel>> call, Throwable t) {
+                    Toast.makeText(HomeActivity.this, "Failed to fetch appointments", Toast.LENGTH_SHORT).show();
                     setupViewPager(viewPager);
                     progressDialog.dismiss();
                 }
-            }
+            });
 
-            @Override
-            public void onFailure(Call<List<AppointmentModel>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Failed to fetch appointments", Toast.LENGTH_SHORT).show();
-                setupViewPager(viewPager);
-                progressDialog.dismiss();
-            }
-        });
+            ApiCalls.Factory.getInstance().getHospitals().enqueue(new Callback<List<HospitalModel>>() {
+                @Override
+                public void onResponse(Call<List<HospitalModel>> call, Response<List<HospitalModel>> response) {
+                    hospitalsFetched = true;
+                    hospitals = response.body();
+                    if (appointmentsFetched) {
+                        setupViewPager(viewPager);
+                        progressDialog.dismiss();
+                    }
+                    if (SignUpFragment.isPregnantFlag) {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .add(R.id.frag_container, new HospitalSelectFragment())
+                                .addToBackStack("hospital_select_frag")
+                                .commit();
+                    }
+                }
 
-        ApiCalls.Factory.getInstance().getHospitals().enqueue(new Callback<List<HospitalModel>>() {
-            @Override
-            public void onResponse(Call<List<HospitalModel>> call, Response<List<HospitalModel>> response) {
-                hospitalsFetched = true;
-                hospitals = response.body();
-                if (appointmentsFetched) {
+                @Override
+                public void onFailure(Call<List<HospitalModel>> call, Throwable t) {
+                    Toast.makeText(HomeActivity.this, "Failed to fetch hospitals", Toast.LENGTH_SHORT).show();
                     setupViewPager(viewPager);
                     progressDialog.dismiss();
                 }
-                if (SignUpFragment.isPregnantFlag) {
-                    getSupportFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.frag_container, new HospitalSelectFragment())
-                            .addToBackStack("hospital_select_frag")
-                            .commit();
+            });
+
+            ApiCalls.Factory.getInstance().getDoctors().enqueue(new Callback<List<DoctorModel>>() {
+                @Override
+                public void onResponse(Call<List<DoctorModel>> call, Response<List<DoctorModel>> response) {
+                    doctors = response.body();
                 }
-            }
 
-            @Override
-            public void onFailure(Call<List<HospitalModel>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Failed to fetch hospitals", Toast.LENGTH_SHORT).show();
-                setupViewPager(viewPager);
-                progressDialog.dismiss();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<DoctorModel>> call, Throwable t) {
+                    Toast.makeText(HomeActivity.this, "Failed to fetch doctors", Toast.LENGTH_SHORT).show();
+                }
+            });
 
-        ApiCalls.Factory.getInstance().getDoctors().enqueue(new Callback<List<DoctorModel>>() {
-            @Override
-            public void onResponse(Call<List<DoctorModel>> call, Response<List<DoctorModel>> response) {
-                doctors = response.body();
-            }
+            ApiCalls.Factory.getInstance().getVisits().enqueue(new Callback<List<VisitingDoctorModel>>() {
+                @Override
+                public void onResponse(Call<List<VisitingDoctorModel>> call, Response<List<VisitingDoctorModel>> response) {
+                    visits = response.body();
+                }
 
-            @Override
-            public void onFailure(Call<List<DoctorModel>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Failed to fetch doctors", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<List<VisitingDoctorModel>> call, Throwable t) {
+                    Toast.makeText(HomeActivity.this, "Failed to fetch visits", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            progressDialog.setMessage("Fetching data through SMS");
 
-        ApiCalls.Factory.getInstance().getVisits().enqueue(new Callback<List<VisitingDoctorModel>>() {
-            @Override
-            public void onResponse(Call<List<VisitingDoctorModel>> call, Response<List<VisitingDoctorModel>> response) {
-                visits = response.body();
-            }
+            SmsHandler.getAppointments(LoginActivity.PATIENT_ID, new SmsCallback<List<AppointmentModel>>() {
+                @Override
+                public void onReceive(List<AppointmentModel> appointmentModels) {
+                    appointmentsFetched = true;
+                    appointments = appointmentModels;
+                    if (hospitalsFetched) {
+                        setupViewPager(viewPager);
+                        progressDialog.dismiss();
+                    }
+                }
+            });
 
-            @Override
-            public void onFailure(Call<List<VisitingDoctorModel>> call, Throwable t) {
-                Toast.makeText(HomeActivity.this, "Failed to fetch visits", Toast.LENGTH_SHORT).show();
-            }
-        });
+        }
 
     }
 
