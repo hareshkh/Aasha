@@ -46,11 +46,10 @@ public class SmsHandler extends BroadcastReceiver {
             if (bundle != null) {
                 final Object[] pdus = (Object[]) bundle.get("pdus");
                 assert pdus != null;
+                Log.d(TAG, ":" + pdus.length);
                 String finalResponse = "";
                 for (Object aPdusObj : pdus) {
                     SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) aPdusObj);
-
-                    String senderNum = currentMessage.getDisplayOriginatingAddress();
                     finalResponse = finalResponse.concat(currentMessage.getDisplayMessageBody());
                 }
 

@@ -168,12 +168,9 @@ public class HomeActivity extends AppCompatActivity {
             appointmentsCallback = new SmsCallback<List<AppointmentModel>>() {
                 @Override
                 public void onReceive(List<AppointmentModel> appointmentModels) {
+                    progressDialog.setMessage("Fetched data 1/4");
                     appointmentsFetched = true;
                     appointments = appointmentModels;
-                    if (hospitalsFetched) {
-                        setupViewPager(viewPager);
-                        progressDialog.dismiss();
-                    }
                     SmsHandler.getHospitals(hospitalsCallback);
                 }
             };
@@ -181,19 +178,9 @@ public class HomeActivity extends AppCompatActivity {
             hospitalsCallback = new SmsCallback<List<HospitalModel>>() {
                 @Override
                 public void onReceive(List<HospitalModel> hospitalModels) {
+                    progressDialog.setMessage("Fetched data 2/4");
                     hospitalsFetched = true;
                     hospitals = hospitalModels;
-                    if (appointmentsFetched) {
-                        setupViewPager(viewPager);
-                        progressDialog.dismiss();
-                    }
-                    if (SignUpFragment.isPregnantFlag) {
-                        getSupportFragmentManager()
-                                .beginTransaction()
-                                .add(R.id.frag_container, new HospitalSelectFragment())
-                                .addToBackStack("hospital_select_frag")
-                                .commit();
-                    }
                     SmsHandler.getDoctors(doctorsCallback);
                 }
             };
@@ -201,6 +188,7 @@ public class HomeActivity extends AppCompatActivity {
             doctorsCallback = new SmsCallback<List<DoctorModel>>() {
                 @Override
                 public void onReceive(List<DoctorModel> doctorModels) {
+                    progressDialog.setMessage("Fetched data 3/4");
                     doctors = doctorModels;
                     SmsHandler.getVisits(visitsCallback);
                 }
@@ -209,7 +197,17 @@ public class HomeActivity extends AppCompatActivity {
             visitsCallback = new SmsCallback<List<VisitingDoctorModel>>() {
                 @Override
                 public void onReceive(List<VisitingDoctorModel> visitingDoctorModels) {
+                    progressDialog.setMessage("Fetched data 4/4");
                     visits = visitingDoctorModels;
+                    setupViewPager(viewPager);
+                    if (SignUpFragment.isPregnantFlag) {
+                        getSupportFragmentManager()
+                                .beginTransaction()
+                                .add(R.id.frag_container, new HospitalSelectFragment())
+                                .addToBackStack("hospital_select_frag")
+                                .commit();
+                    }
+                    progressDialog.dismiss();
                 }
             };
 
